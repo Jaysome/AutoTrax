@@ -1,4 +1,4 @@
-
+#! python3
 
 import pyautogui
 import time
@@ -52,6 +52,8 @@ while True:
 
     while True:
         print('TYPE: ', end='')  # TODO Modify name type is lame
+        time.sleep(0.1)
+        pyautogui.typewrite('INSP/CHK')
         inspchk = input()
         inspchk.strip()
         if len(inspchk) > 0:
@@ -60,6 +62,7 @@ while True:
     inspchk = inspchk.upper()
 
     print('WORK ACCOMPLISHED: ', end='')
+    time.sleep(0.1)
     pyautogui.typewrite('WORK ACCOMPLISHED AS PER TASK CARD INSTRUCTIONS.')
     work = input()
     work.strip()
@@ -130,6 +133,8 @@ def restarter():
             print('\n\nRESTARTING AUTO TRAX...\nCTRL-C TO INTERRUPT')
             break
         if restart == 'N':
+            print('\nGoodbye')
+            time.sleep(1)
             sys.exit()
 
 
