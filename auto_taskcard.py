@@ -6,6 +6,7 @@ import sys
 import cv2
 
 pyautogui.FAILSAFE = True
+pyautogui.PAUSE = 1
 
 while True:
     while True:
@@ -114,12 +115,12 @@ restartCondition = True
 
 def clickntype(clicklocation, text):
     pyautogui.doubleClick(clicklocation)
-    pyautogui.typewrite(text)
+    pyautogui.typewrite(text, interval=0.1)
 
 
 def tabntype(numberoftabs, text):
     pyautogui.typewrite('\t' * numberoftabs)
-    pyautogui.typewrite(text)
+    pyautogui.typewrite(text, interval=0.1)
 
 
 def restarter():
@@ -149,24 +150,25 @@ try:
         # ------------Coordinate Mode---------- #
         while restartCondition:
             while True:
-                coords = pyautogui.locateOnScreen('saveIcon.png')
+                coords = pyautogui.locateCenterOnScreen('saveIcon.png')
                 if coords is not None:
-                    x = coords[0] - 8
-                    y = coords[1] - 70
+                    x = coords[0]
+                    y = coords[1]
                     break
                 print('Cannot find an opened trax task card')
 
-            statusLoc = (x + 150, y + 160)
-            byLoc = (x + 150, y + 205)
-            dateLoc = (x + 500, y + 270)
-            hrLoc = (x + 550, y + 270)
-            mnLoc = (x + 570, y + 270)
-            stationLoc = (x + 600, y + 270)
-            workLoc = (x + 300, y + 380)
-            saveIconLoc = (x + 17, y + 80)
-            workTabLoc = (x + 500, y + 600)
-            logPageLoc = (x + 560, y + 105)
-            # TODO ADD INSPCHK LOC
+            statusLoc = (x + 160, y + 80)  # *OLD CORDS* X+150 Y+160
+            byLoc = (x + 160, y + 127)  # x + 150, y + 205
+            dateLoc = (x + 480, y + 193)  # x + 500, y + 270
+            hrLoc = (x + 530, y + 193)  # x + 550, y + 270
+            mnLoc = (x + 550, y + 193)  # x + 570, y + 270
+            stationLoc = (x + 610, y + 193)  # x + 600, y + 270
+            inspchkLoc = (x + 610, y + 170)  # tentative location
+            workLoc = (x + 300, y + 300)  # x + 300, y + 380
+            saveIconLoc = (x, y)  # x + 17, y + 80
+            workTabLoc = (x + 480, y + 520)  # x + 500, y + 600
+            logPageLoc = (x + 540, y + 30)  # x + 560, y + 105
+
 
             # TODO implement status behavior
             clickntype(byLoc, name)
@@ -174,7 +176,7 @@ try:
             clickntype(hrLoc, hr)
             clickntype(mnLoc, mn)
             clickntype(stationLoc, station)
-            # TODO implement clickntype for insp chk
+            clickntype(inspchkLoc, inspchk)
             clickntype(workLoc, work)
             pyautogui.doubleClick(workTabLoc)
             time.sleep(2)
@@ -203,7 +205,7 @@ try:
                 print('Cannot find an opened trax task card')
             # potential implementation of status
             # pyautogui.click(coords)
-            # pyautogui.typewrite(['c','enter'], interval = 0.1)
+            # pyautogui.typewrite(['c','enter'], interval = 0.2)
 
             tabntype(statusToBy, name)
             tabntype(byToInsp, inspchk)
