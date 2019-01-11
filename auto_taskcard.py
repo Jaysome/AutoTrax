@@ -6,7 +6,7 @@ import sys
 import cv2
 
 pyautogui.FAILSAFE = True
-pyautogui.PAUSE = 0.5
+pyautogui.PAUSE = 0.2
 
 while True:
     while True:
@@ -43,15 +43,6 @@ while True:
         print('INVALID. Time must contain only 2 numbers')
 
     while True:
-        print('STATION: ', end='')
-        station = input()
-        station.strip()
-        if station.isalpha() and len(station) == 3:
-            break
-        print('INVALID. Station must contain only 3 letters')
-    station = station.upper()
-
-    while True:
         print('RESOLUTION: ', end='')
         time.sleep(0.1)
         pyautogui.typewrite('INSP'+'/'+'CHK')
@@ -61,6 +52,15 @@ while True:
             break
         print('INVALID.')
     resolution = resolution.upper()
+
+    while True:
+        print('STATION: ', end='')
+        station = input()
+        station.strip()
+        if station.isalpha() and len(station) == 3:
+            break
+        print('INVALID. Station must contain only 3 letters')
+    station = station.upper()
 
     print('WORK ACCOMPLISHED: ', end='')
     time.sleep(0.1)
@@ -96,7 +96,7 @@ while True:
     confirm.strip()
     confirm = confirm.upper()
     if confirm == 'Y':
-        print('Good Job')
+        print('Good Job!')
         break
 
 # TEST VALUES #
@@ -115,14 +115,19 @@ restartCondition = True
 
 def clickntype(clicklocation, text, backspaces):
     pyautogui.doubleClick(clicklocation)
-    pyautogui.typewrite('\b' * backspaces)
-    pyautogui.typewrite(text, interval=0.1)
+    pyautogui.press('home')
+    numberdels = ['del'] * backspaces
+    pyautogui.press(numberdels)
+    pyautogui.typewrite(text)
 
 
 def tabntype(numberoftabs, text, backspaces):
-    pyautogui.typewrite('\t' * numberoftabs)
-    pyautogui.typewrite('\b' * backspaces)
-    pyautogui.typewrite(text, interval=0.1)
+    tabnums = ['tab'] * numberoftabs
+    pyautogui.press(tabnums)
+    pyautogui.press('home')
+    numberdels = ['del'] * backspaces
+    pyautogui.press(numberdels)
+    pyautogui.typewrite(text)
 
 
 def statusimplem(coordinatesofstatus):
@@ -138,7 +143,7 @@ def restarter():
         restart = restart.upper()
 
         if restart == 'Y':
-            print('\n\nRESTARTING AUTO TRAX...\nCTRL-C TO INTERRUPT')
+            print('\n\nRESTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
             break
         if restart == 'N':
             print('\nGoodbye')
@@ -147,7 +152,7 @@ def restarter():
 
 
 try:
-    print('\n\nSTARTING AUTO TRAX...\nCTRL-C TO INTERRUPT')
+    print('\n\nSTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
     print('Choose Mode: coord or tab')
     mode = input()
     mode.strip()
@@ -163,7 +168,7 @@ try:
                     y = coords[1]
                     break
                 print('Cannot find an opened trax task card')
-            # TODO fix status bug +80 a lautre bout du monde +100 a coter
+
             statusLoc = (x + 160, y + 80)  # *OLD CORDS* X+150 Y+160
             byLoc = (x + 160, y + 127)  # x + 150, y + 205
             dateLoc = (x + 480, y + 193)  # x + 500, y + 270
@@ -195,7 +200,7 @@ try:
     elif mode == 'TAB':
         # ----------------Tab Mode---------------- #
         while restartCondition:
-            # tentative tab values
+
             statusToBy = 4
             byToRes = 1
             resToDate = 1
@@ -211,7 +216,6 @@ try:
                     break
                 print('Cannot find an opened trax task card')
 
-            #statusimplem(coords)
             pyautogui.doubleClick(coords)
             pyautogui.typewrite('c')
             tabntype(statusToBy, name, 10)
