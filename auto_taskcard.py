@@ -135,6 +135,16 @@ def statusimplem(coordinatesofstatus):
     pyautogui.typewrite('c')
 
 
+def saver():
+    savecoords = pyautogui.locateCenterOnScreen('saveIcon.png')
+    pyautogui.click(savecoords)
+    greenthumb = (385, 240)
+    pyautogui.moveRel(greenthumb)
+    pyautogui.click()
+    time.sleep(2)
+    pyautogui.click()
+
+
 def restarter():
     while True:
         print('\nRESTART AUTO TRAX ? (Y/N)')
@@ -195,6 +205,7 @@ try:
             clickntype(logPageLoc, logpage, 0)
 
             print('AUTO TRAX COMPLETE')
+            saver()
             restarter()
 
     elif mode == 'TAB':
@@ -231,6 +242,7 @@ try:
             tabntype(workToLogpage, logpage, 0)
 
             print('AUTO TRAX COMPLETE')
+            saver()
             restarter()
 
     # when ready to automate further#
