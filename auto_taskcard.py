@@ -1,6 +1,7 @@
 #! python3
 
 import pyautogui
+import pywinauto.keyboard as kb
 import time
 import sys
 import cv2
@@ -112,7 +113,7 @@ while True:
 
 restartCondition = True
 
-#not sure if useful
+# not sure if useful
 statusToBy = 4
 byToRes = 1
 resToDate = 1
@@ -128,20 +129,12 @@ def clickntype(clicklocation, text):
     pyautogui.typewrite(text)
 
 
-def eraser(backspaces):
-    pyautogui.press('delete', presses=backspaces, interval=0.1)
-
-
-def erasertime(seconds):
-    pyautogui.keyDown('delete')
-    time.sleep(seconds)
-    pyautogui.keyUp('delete')
+def eraser():
+    kb.SendKeys("{VK_DELETE 10}")
 
 
 def eraserhotkey():
-    pyautogui.hotkey('ctrl', 'shift', 'right')
-    time.sleep(0.1)
-    pyautogui.press('backspace')
+    kb.SendKeys('^+{RIGHT}')
 
 
 def saver(savecoords):
@@ -171,7 +164,7 @@ def restarter():
 
 try:
     print('\n\nSTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
-    print('Choose Mode: basic / time / hotkey')
+    print('Choose Mode: basic / click / hotkey')
     mode = input()
     mode.strip()
     mode = mode.upper()
@@ -203,15 +196,15 @@ try:
             pyautogui.typewrite('c')
 
             pyautogui.click(byLoc)
-            eraser(10)
+            eraser()
             pyautogui.typewrite(name)
 
             clickntype(dateLoc, date)
             clickntype(hrLoc, hr)
             clickntype(mnLoc, mn)
 
-            pyautogui.click(statusLoc)
-            eraser(5)
+            pyautogui.click(stationLoc)
+            eraser()
             pyautogui.typewrite(station)
 
             clickntype(resolutionLoc, resolution)
@@ -225,7 +218,7 @@ try:
             # saver(coords)
             restarter()
 
-    elif mode == 'TIME':
+    elif mode == 'CLICK':
         # ------------Time Mode---------- #
         while restartCondition:
             while True:
@@ -244,6 +237,7 @@ try:
             stationLoc = (x + 610, y + 193)
             resolutionLoc = (x + 610, y + 158)
             workLoc = (x + 300, y + 300)
+            workclickLoc = (x + 120, y + 390)
             saveIconLoc = (x, y)
             workTabLoc = (x + 480, y + 520)
             logPageLoc = (x + 540, y + 30)
@@ -252,20 +246,22 @@ try:
             pyautogui.typewrite('c')
 
             pyautogui.click(byLoc)
-            erasertime(2)
+            eraser()
             pyautogui.typewrite(name)
 
             clickntype(dateLoc, date)
             clickntype(hrLoc, hr)
             clickntype(mnLoc, mn)
 
-            pyautogui.click(statusLoc)
-            erasertime(2)
+            pyautogui.click(stationLoc)
+            eraser()
             pyautogui.typewrite(station)
 
             clickntype(resolutionLoc, resolution)
-            clickntype(workLoc, work)
-            time.sleep(1)
+
+            pyautogui.doubleClick(workclickLoc)
+            time.sleep(0.5)
+
             pyautogui.doubleClick(workTabLoc)
             time.sleep(0.5)
             clickntype(logPageLoc, logpage)
@@ -302,14 +298,16 @@ try:
 
             pyautogui.click(byLoc)
             eraserhotkey()
+            time.sleep(0.1)
             pyautogui.typewrite(name)
 
             clickntype(dateLoc, date)
             clickntype(hrLoc, hr)
             clickntype(mnLoc, mn)
 
-            pyautogui.click(statusLoc)
+            pyautogui.click(stationLoc)
             eraserhotkey()
+            time.sleep(0.1)
             pyautogui.typewrite(station)
 
             clickntype(resolutionLoc, resolution)
