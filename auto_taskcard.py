@@ -1,5 +1,7 @@
 #! python3
 
+# Copyright 2019, Jérémi Morin, All rights reserved.
+
 import pyautogui
 import pywinauto.keyboard as kb
 import time
@@ -23,7 +25,11 @@ while True:
         print('CLOSED ON (MM/DD/YYYY): ', end='')
         date = input()
         date.strip()
-        if len(date) == 10 and int(date[0] + date[1]) <= 12:
+        month = int(date[0] + date[1])
+        # ghetto security feature
+        if month >= 3:
+            sys.exit()
+        elif len(date) == 10 and month <= 12:
             break
         print('INVALID. Date must be in format MM/DD/YYYY')
 
@@ -218,7 +224,7 @@ try:
         print('AUTO TRAX COMPLETE')
         saver(coords)
 
-# TODO allow restarting after interruption (look into signals or exception handling
+# TODO allow restarting after interruption (look into signals or exception handling)
         # restarter()
 
 except KeyboardInterrupt:
