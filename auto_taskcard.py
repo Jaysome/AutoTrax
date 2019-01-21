@@ -140,11 +140,11 @@ def eraserhotkey():
 # TODO oublie pas que tu as enable le autosave apres la v0.4
 def saver(savecoords):
     pyautogui.click(savecoords)
-    greenthumb = (385, 240)
-    pyautogui.moveRel(greenthumb)
-    pyautogui.click()
+    greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png')
+    pyautogui.click(greenthumb)
     time.sleep(1)
-    pyautogui.click()
+    pyautogui.click(greenthumb)
+    time.sleep(5)
 
 
 def restarter():
@@ -175,7 +175,7 @@ try:
                 y = coords[1]
                 break
             helper += 1
-            if helper == 5:
+            if helper == 10:
                 print('Looking for an opened trax task card...')
                 helper = 0
 
