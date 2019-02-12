@@ -1,5 +1,7 @@
 #! python3
 
+# Copyright 2019, Jérémi Morin, All rights reserved.
+
 import pyautogui
 import pywinauto.keyboard as kb
 import time
@@ -8,6 +10,8 @@ import cv2
 
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
+
+priority_user = {'JMORIN', 'DCHARTRA'}
 
 while True:
     while True:
@@ -23,39 +27,32 @@ while True:
         print('CLOSED ON (MM/DD/YYYY): ', end='')
         date = input()
         date.strip()
-        if len(date) == 10 and int(date[0] + date[1]) <= 12:
+        month = int(date[0] + date[1])
+        # ghetto security feature
+        if month >= 3 and name not in priority_user:
+            sys.exit()
+        elif len(date) == 10 and month <= 12:
             break
         print('INVALID. Date must be in format MM/DD/YYYY')
 
     while True:
-        print('HOUR(UTC): ', end='')
-        hr = input()
-        hr.strip()
-        if hr.isdecimal() and len(hr) == 2:
+        print('ZULU TIME(HR:MN): ', end='')
+        zulu = input()
+        zulu.strip()
+        hr = zulu[0] + zulu[1]
+        mn = zulu[-2] + zulu[-1]
+        if hr.isdecimal() is False:
+            hr = '0' + hr[0]
+        if mn.isdecimal() is False:
+            mn = '0' + zulu[-1]
+        if int(hr) < 24 and int(mn) < 60 and hr.isdecimal() and mn.isdecimal() and len(zulu) >= 4:
             break
-        print('INVALID. Time must contain only 2 numbers')
-
-    while True:
-        print('MINUTE(UTC): ', end='')
-        mn = input()
-        mn.strip()
-        if mn.isdecimal() and len(mn) == 2:
-            break
-        print('INVALID. Time must contain only 2 numbers')
-
-    while True:
-        print('RESOLUTION: ', end='')
-        time.sleep(0.1)
-        pyautogui.typewrite('INSP' + '/' + 'CHK')
-        resolution = input()
-        resolution.strip()
-        if len(resolution) > 0:
-            break
-        print('INVALID.')
-    resolution = resolution.upper()
+        print('INVALID. Do it right this time')
 
     while True:
         print('STATION: ', end='')
+        time.sleep(0.1)
+        pyautogui.typewrite('YUL')
         station = input()
         station.strip()
         if station.isalpha() and len(station) == 3:
@@ -63,12 +60,16 @@ while True:
         print('INVALID. Station must contain only 3 letters')
     station = station.upper()
 
-    print('WORK ACCOMPLISHED: ', end='')
-    time.sleep(0.1)
-    pyautogui.typewrite('WORK ACCOMPLISHED AS PER TASK CARD INSTRUCTIONS.')
-    work = input()
-    work.strip()
-    work = work.upper()
+    while True:
+        print('RESOLUTION: ', end='')
+        time.sleep(0.1)
+        pyautogui.typewrite('INSP' + "/" + 'CHK')
+        resolution = input()
+        resolution.strip()
+        if len(resolution) > 0:
+            break
+        print('INVALID.')
+    resolution = resolution.upper()
 
     while True:
         print('LOGPAGE: ', end='')
@@ -78,7 +79,7 @@ while True:
             break
         print('INVALID. Logpage must be numbers only')
 
-    traxData = [name, date, hr, mn, station, resolution, work, logpage]
+    traxData = [name, date, hr, mn, station, resolution, logpage]
 
 
     def printpicnic(items_dict, left_width, right_width):
@@ -111,17 +112,15 @@ while True:
 # logpage = '12345'
 #############################################################
 
-restartCondition = True
-
 # not sure if useful
-statusToBy = 4
-byToRes = 1
-resToDate = 1
-dateToHr = 1
-hrToMn = 0
-mnToStation = 1
-stationToWork = 1
-workToLogpage = 3
+# statusToBy = 4
+# byToRes = 1
+# resToDate = 1
+# dateToHr = 1
+# hrToMn = 0
+# mnToStation = 1
+# stationToWork = 1
+# workToLogpage = 3
 
 
 def clickntype(clicklocation, text):
@@ -139,188 +138,93 @@ def eraserhotkey():
 
 def saver(savecoords):
     pyautogui.click(savecoords)
-    greenthumb = (385, 240)
-    pyautogui.moveRel(greenthumb)
-    pyautogui.click()
+    greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png')
+    pyautogui.click(greenthumb)
     time.sleep(1)
-    pyautogui.click()
+    pyautogui.click(greenthumb)
+    time.sleep(5)
 
 
 def restarter():
-    while True:
-        print('\nRESTART AUTO TRAX ? (Y/N)')
-        restart = input()
-        restart.strip()
-        restart = restart.upper()
+    print('\nRESTART AUTO TRAX ? (Y/N)')
+    restart = input()
+    restart.strip()
+    restart = restart.upper()
 
-        if restart == 'Y':
-            print('\n\nRESTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
-            break
-        if restart == 'N':
-            print('\nGoodbye')
-            time.sleep(1)
-            sys.exit()
+    if restart == 'Y':
+        print('\n\nRESTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
+    else:
+        print('\nGoodbye')
+        time.sleep(1)
+        sys.exit()
 
 
-try:
-    print('\n\nSTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
-    print('Choose Mode: basic / click / hotkey')
-    mode = input()
-    mode.strip()
-    mode = mode.upper()
+print('STARTING AUTO TRAX...\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
+while True:
+    try:
+        helper = 0
+        while True:
+            statusLoc = pyautogui.locateCenterOnScreen('status.png')
+            if statusLoc is not None:
+                x = statusLoc[0]
+                y = statusLoc[1]
+                break
+            statusLoc = pyautogui.locateCenterOnScreen('statusBlue.png')
+            if statusLoc is not None:
+                x = statusLoc[0]
+                y = statusLoc[1]
+                break
+            helper += 1
+            print('Looking for an opened trax task card...' + '(' + str(helper) + ')')
 
-    if mode == 'BASIC':
-        # ------------Basic Mode---------- #
-        while restartCondition:
-            while True:
-                coords = pyautogui.locateCenterOnScreen('saveIcon.png')
-                if coords is not None:
-                    x = coords[0]
-                    y = coords[1]
-                    break
-                print('Cannot find an opened trax task card (basic)')
+        saveLoc = (x - 141, y - 82)
+        byLoc = (x + 0, y + 45)
+        dateLoc = (x + 340, y + 113)
+        hrLoc = (x + 388, y + 113)
+        mnLoc = (x + 410, y + 113)
+        stationLoc = (x + 470, y + 113)
+        resolutionLoc = (x + 487, y + 78)
+        workLoc = (x + 0, y + 220)
+        workclickLoc = (x + 0, y + 315)
+        workTabLoc = (x + 347, y + 437)
+        logPageLoc = (x + 400, y - 56)
 
-            statusLoc = (x + 160, y + 80)
-            byLoc = (x + 160, y + 127)
-            dateLoc = (x + 480, y + 193)
-            hrLoc = (x + 530, y + 193)
-            mnLoc = (x + 550, y + 193)
-            stationLoc = (x + 610, y + 193)
-            resolutionLoc = (x + 610, y + 158)
-            workLoc = (x + 300, y + 300)
-            saveIconLoc = (x, y)
-            workTabLoc = (x + 480, y + 520)
-            logPageLoc = (x + 540, y + 30)
+        pyautogui.click(statusLoc)
+        pyautogui.typewrite('c')
 
-            pyautogui.click(statusLoc)
-            pyautogui.typewrite('c')
+        pyautogui.click(byLoc)
+        eraserhotkey()
+        pyautogui.typewrite(name)
 
-            pyautogui.click(byLoc)
-            eraser()
-            pyautogui.typewrite(name)
+        clickntype(dateLoc, date)
+        clickntype(hrLoc, hr)
+        clickntype(mnLoc, mn)
 
-            clickntype(dateLoc, date)
-            clickntype(hrLoc, hr)
-            clickntype(mnLoc, mn)
+        pyautogui.click(stationLoc)
+        eraserhotkey()
+        pyautogui.typewrite(station)
 
-            pyautogui.click(stationLoc)
-            eraser()
-            pyautogui.typewrite(station)
+        clickntype(resolutionLoc, resolution)
 
-            clickntype(resolutionLoc, resolution)
-            clickntype(workLoc, work)
-            time.sleep(1)
-            pyautogui.doubleClick(workTabLoc)
-            time.sleep(0.5)
-            clickntype(logPageLoc, logpage)
+        pyautogui.doubleClick(workclickLoc)
+        time.sleep(0.5)
 
-            print('AUTO TRAX COMPLETE')
-            # saver(coords)
-            restarter()
+        pyautogui.doubleClick(workTabLoc)
+        time.sleep(0.5)
+        clickntype(logPageLoc, logpage)
 
-    elif mode == 'CLICK':
-        # ------------Time Mode---------- #
-        while restartCondition:
-            while True:
-                coords = pyautogui.locateCenterOnScreen('saveIcon.png')
-                if coords is not None:
-                    x = coords[0]
-                    y = coords[1]
-                    break
-                print('Cannot find an opened trax task card (time)')
+        print('AUTO TRAX COMPLETE')
+        saver(saveLoc)
 
-            statusLoc = (x + 160, y + 80)
-            byLoc = (x + 160, y + 127)
-            dateLoc = (x + 480, y + 193)
-            hrLoc = (x + 530, y + 193)
-            mnLoc = (x + 550, y + 193)
-            stationLoc = (x + 610, y + 193)
-            resolutionLoc = (x + 610, y + 158)
-            workLoc = (x + 300, y + 300)
-            workclickLoc = (x + 120, y + 390)
-            saveIconLoc = (x, y)
-            workTabLoc = (x + 480, y + 520)
-            logPageLoc = (x + 540, y + 30)
+    except pyautogui.FailSafeException:
+        print('autoTRAX paused by failsafe')
+        restarter()
+        pass
 
-            pyautogui.click(statusLoc)
-            pyautogui.typewrite('c')
-
-            pyautogui.click(byLoc)
-            eraser()
-            pyautogui.typewrite(name)
-
-            clickntype(dateLoc, date)
-            clickntype(hrLoc, hr)
-            clickntype(mnLoc, mn)
-
-            pyautogui.click(stationLoc)
-            eraser()
-            pyautogui.typewrite(station)
-
-            clickntype(resolutionLoc, resolution)
-
-            pyautogui.doubleClick(workclickLoc)
-            time.sleep(0.5)
-
-            pyautogui.doubleClick(workTabLoc)
-            time.sleep(0.5)
-            clickntype(logPageLoc, logpage)
-
-            print('AUTO TRAX COMPLETE')
-            # saver(coords)
-            restarter()
-
-    elif mode == 'HOTKEY':
-        # ------------Hotkey Mode---------- #
-        while restartCondition:
-            while True:
-                coords = pyautogui.locateCenterOnScreen('saveIcon.png')
-                if coords is not None:
-                    x = coords[0]
-                    y = coords[1]
-                    break
-                print('Cannot find an opened trax task card (hotkey)')
-
-            statusLoc = (x + 160, y + 80)
-            byLoc = (x + 160, y + 127)
-            dateLoc = (x + 480, y + 193)
-            hrLoc = (x + 530, y + 193)
-            mnLoc = (x + 550, y + 193)
-            stationLoc = (x + 610, y + 193)
-            resolutionLoc = (x + 610, y + 158)
-            workLoc = (x + 300, y + 300)
-            saveIconLoc = (x, y)
-            workTabLoc = (x + 480, y + 520)
-            logPageLoc = (x + 540, y + 30)
-
-            pyautogui.click(statusLoc)
-            pyautogui.typewrite('c')
-
-            pyautogui.click(byLoc)
-            eraserhotkey()
-            time.sleep(0.1)
-            pyautogui.typewrite(name)
-
-            clickntype(dateLoc, date)
-            clickntype(hrLoc, hr)
-            clickntype(mnLoc, mn)
-
-            pyautogui.click(stationLoc)
-            eraserhotkey()
-            time.sleep(0.1)
-            pyautogui.typewrite(station)
-
-            clickntype(resolutionLoc, resolution)
-            clickntype(workLoc, work)
-            time.sleep(1)
-            pyautogui.doubleClick(workTabLoc)
-            time.sleep(0.5)
-            clickntype(logPageLoc, logpage)
-
-            print('AUTO TRAX COMPLETE')
-            # saver(coords)
-            restarter()
+    except KeyboardInterrupt:
+        print('autoTRAX paused by CTRL-C')
+        restarter()
+        pass
 
 
-except KeyboardInterrupt:
-    print('Interrupted')
+
