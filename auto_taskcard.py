@@ -11,6 +11,8 @@ import cv2
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
 
+priority_user = {'JMORIN', 'DCHARTRA'}
+
 while True:
     while True:
         print('MECHANIC: ', end='')
@@ -27,30 +29,30 @@ while True:
         date.strip()
         month = int(date[0] + date[1])
         # ghetto security feature
-        if month >= 3:
+        if month >= 3 and name not in priority_user:
             sys.exit()
         elif len(date) == 10 and month <= 12:
             break
         print('INVALID. Date must be in format MM/DD/YYYY')
 
     while True:
-        print('HOUR(UTC): ', end='')
-        hr = input()
-        hr.strip()
-        if hr.isdecimal() and len(hr) == 2:
+        print('ZULU TIME(HR:MN): ', end='')
+        zulu = input()
+        zulu.strip()
+        hr = zulu[0] + zulu[1]
+        mn = zulu[-2] + zulu[-1]
+        if hr.isdecimal() is False:
+            hr = '0' + hr[0]
+        if mn.isdecimal() is False:
+            mn = '0' + zulu[-1]
+        if int(hr) < 24 and int(mn) < 60 and hr.isdecimal() and mn.isdecimal() and len(zulu) >= 4:
             break
-        print('INVALID. Time must contain only 2 numbers')
-
-    while True:
-        print('MINUTE(UTC): ', end='')
-        mn = input()
-        mn.strip()
-        if mn.isdecimal() and len(mn) == 2:
-            break
-        print('INVALID. Time must contain only 2 numbers')
+        print('INVALID. Do it right this time')
 
     while True:
         print('STATION: ', end='')
+        time.sleep(0.1)
+        pyautogui.typewrite('YUL')
         station = input()
         station.strip()
         if station.isalpha() and len(station) == 3:
@@ -61,20 +63,13 @@ while True:
     while True:
         print('RESOLUTION: ', end='')
         time.sleep(0.1)
-        pyautogui.typewrite('INSP' + '/' + 'CHK')
+        pyautogui.typewrite('INSP' + "/" + 'CHK')
         resolution = input()
         resolution.strip()
         if len(resolution) > 0:
             break
         print('INVALID.')
     resolution = resolution.upper()
-
-    print('WORK ACCOMPLISHED: ', end='')
-    time.sleep(0.1)
-    pyautogui.typewrite('WORK ACCOMPLISHED AS PER TASK CARD INSTRUCTIONS.')
-    work = input()
-    work.strip()
-    work = work.upper()
 
     while True:
         print('LOGPAGE: ', end='')
@@ -84,7 +79,7 @@ while True:
             break
         print('INVALID. Logpage must be numbers only')
 
-    traxData = [name, date, hr, mn, station, resolution, work, logpage]
+    traxData = [name, date, hr, mn, station, resolution, logpage]
 
 
     def printpicnic(items_dict, left_width, right_width):
@@ -117,8 +112,6 @@ while True:
 # logpage = '12345'
 #############################################################
 
-restartCondition = True
-
 # not sure if useful
 # statusToBy = 4
 # byToRes = 1
@@ -143,7 +136,6 @@ def eraserhotkey():
     kb.SendKeys('^+{RIGHT}')
 
 
-# TODO oublie pas que tu as enable le autosave apres la v0.4
 def saver(savecoords):
     pyautogui.click(savecoords)
     greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png')
@@ -154,48 +146,48 @@ def saver(savecoords):
 
 
 def restarter():
-    while True:
-        print('\nRESTART AUTO TRAX ? (Y/N)')
-        restart = input()
-        restart.strip()
-        restart = restart.upper()
+    print('\nRESTART AUTO TRAX ? (Y/N)')
+    restart = input()
+    restart.strip()
+    restart = restart.upper()
 
-        if restart == 'Y':
-            print('\n\nRESTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
-            break
-        if restart == 'N':
-            print('\nGoodbye')
-            time.sleep(1)
-            sys.exit()
+    if restart == 'Y':
+        print('\n\nRESTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
+    else:
+        print('\nGoodbye')
+        time.sleep(1)
+        sys.exit()
 
 
-try:
-    print('\n\nSTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
-
-    while restartCondition:
+print('STARTING AUTO TRAX...\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
+while True:
+    try:
         helper = 0
         while True:
-            coords = pyautogui.locateCenterOnScreen('saveIcon.png')
-            if coords is not None:
-                x = coords[0]
-                y = coords[1]
+            statusLoc = pyautogui.locateCenterOnScreen('status.png')
+            if statusLoc is not None:
+                x = statusLoc[0]
+                y = statusLoc[1]
+                break
+            statusLoc = pyautogui.locateCenterOnScreen('statusBlue.png')
+            if statusLoc is not None:
+                x = statusLoc[0]
+                y = statusLoc[1]
                 break
             helper += 1
-            if helper == 10:
-                print('Looking for an opened trax task card...')
-                helper = 0
+            print('Looking for an opened trax task card...' + '(' + str(helper) + ')')
 
-        statusLoc = (x + 160, y + 80)
-        byLoc = (x + 160, y + 127)
-        dateLoc = (x + 480, y + 193)
-        hrLoc = (x + 530, y + 193)
-        mnLoc = (x + 550, y + 193)
-        stationLoc = (x + 610, y + 193)
-        resolutionLoc = (x + 610, y + 158)
-        workLoc = (x + 300, y + 300)
-        workclickLoc = (x + 120, y + 390)
-        workTabLoc = (x + 480, y + 520)
-        logPageLoc = (x + 540, y + 30)
+        saveLoc = (x - 141, y - 82)
+        byLoc = (x + 0, y + 45)
+        dateLoc = (x + 340, y + 113)
+        hrLoc = (x + 388, y + 113)
+        mnLoc = (x + 410, y + 113)
+        stationLoc = (x + 470, y + 113)
+        resolutionLoc = (x + 487, y + 78)
+        workLoc = (x + 0, y + 220)
+        workclickLoc = (x + 0, y + 315)
+        workTabLoc = (x + 347, y + 437)
+        logPageLoc = (x + 400, y - 56)
 
         pyautogui.click(statusLoc)
         pyautogui.typewrite('c')
@@ -222,14 +214,17 @@ try:
         clickntype(logPageLoc, logpage)
 
         print('AUTO TRAX COMPLETE')
-        saver(coords)
+        saver(saveLoc)
 
-# TODO allow restarting after interruption (look into signals or exception handling)
-        # restarter()
+    except pyautogui.FailSafeException:
+        print('autoTRAX paused by failsafe')
+        restarter()
+        pass
 
-except KeyboardInterrupt:
-    print('Interrupted')
-    time.sleep(5)
-    sys.exit()
+    except KeyboardInterrupt:
+        print('autoTRAX paused by CTRL-C')
+        restarter()
+        pass
+
 
 

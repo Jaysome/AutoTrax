@@ -4,3 +4,14 @@
 \.idea/inspectionProfiles/Project_Default\.xml
 
 \.idea/workspace\.xml
+
+\_pycache_/
+
+\build/
+
+\dist/
+
+
+auto_taskcard\.spec
+
+__pycache__/auto_taskcard\.cpython-37\.pyc
