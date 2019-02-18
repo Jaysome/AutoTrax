@@ -98,7 +98,7 @@ while True:
     confirm.strip()
     confirm = confirm.upper()
     if confirm == 'Y':
-        print('Good Job!')
+        print('\nGood Job!')
         break
 
 # TEST VALUES #
@@ -138,28 +138,29 @@ def eraserhotkey():
 
 def saver(savecoords):
     pyautogui.click(savecoords)
-    greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png')
+    # TODO loop greenthumb to give it more chance to find
+    # tick = 0
+    greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png', confidence=0.8)
     pyautogui.click(greenthumb)
     time.sleep(1)
     pyautogui.click(greenthumb)
-    time.sleep(5)
 
 
 def restarter():
-    print('\nRESTART AUTO TRAX ? (Y/N)')
+    print('\nRESTART autoTRAX ? (Y/N)')
     restart = input()
     restart.strip()
     restart = restart.upper()
 
     if restart == 'Y':
-        print('\n\nRESTARTING AUTO TRAX...\n\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
+        print('\n\nRESTARTING autoTRAX...\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
     else:
         print('\nGoodbye')
         time.sleep(1)
         sys.exit()
 
 
-print('STARTING AUTO TRAX...\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
+print('\nSTARTING autoTRAX...\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
 while True:
     try:
         helper = 0
@@ -213,7 +214,7 @@ while True:
         time.sleep(0.5)
         clickntype(logPageLoc, logpage)
 
-        print('AUTO TRAX COMPLETE')
+        print('autoTRAX COMPLETE')
         saver(saveLoc)
 
     except pyautogui.FailSafeException:

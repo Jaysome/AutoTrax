@@ -1,4 +1,3 @@
-
 \.idea/dictionaries/Jeremi\.xml
 
 \.idea/inspectionProfiles/Project_Default\.xml
@@ -12,6 +11,6 @@
 \dist/
 
 
-auto_taskcard\.spec
+autoTRAX\.spec
 
-__pycache__/auto_taskcard\.cpython-37\.pyc
+__pycache__/autoTRAX\.cpython-37\.pyc
