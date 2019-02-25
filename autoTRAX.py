@@ -12,6 +12,7 @@ pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
 
 priority_user = {'JMORIN', 'DCHARTRA'}
+GHETTO_SECURITY = 4
 
 while True:
     while True:
@@ -29,7 +30,7 @@ while True:
         date.strip()
         month = int(date[0] + date[1])
         # ghetto security feature
-        if month >= 3 and name not in priority_user:
+        if month >= GHETTO_SECURITY and name not in priority_user:
             sys.exit()
         elif len(date) == 10 and month <= 12:
             break
@@ -138,9 +139,9 @@ def eraserhotkey():
 
 def saver(savecoords):
     pyautogui.click(savecoords)
-    # TODO loop greenthumb to give it more chance to find
-    # tick = 0
-    greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png', confidence=0.8)
+    greenthumb = None
+    while greenthumb is None:
+        greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png', confidence=0.8)
     pyautogui.click(greenthumb)
     time.sleep(1)
     pyautogui.click(greenthumb)
