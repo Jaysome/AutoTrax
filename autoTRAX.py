@@ -11,117 +11,166 @@ import cv2
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
 
-priority_user = {'JMORIN', 'DCHARTRA'}
-GHETTO_SECURITY = 4
+priority_user = {'JMORIN', 'DCHARTRA', 'NKJONES'}
+GHETTO_SECURITY = 5
 
-while True:
-    while True:
-        print('MECHANIC: ', end='')
-        name = input()
-        name.strip()
-        if name.isalpha():
-            break
-        print('INVALID. Name must be letters only otherwise it fucks everything')
-    name = name.upper()
 
+def main():
     while True:
-        print('CLOSED ON (MM/DD/YYYY): ', end='')
-        date = input()
-        date.strip()
-        month = int(date[0] + date[1])
-        # ghetto security feature
+        while True:
+            print('MECHANIC: ', end='')
+            name = input()
+            name.strip()
+            if name.isalpha() and len(name) <= 8:
+                break
+            print('INVALID. Name must be exactly like in trax otherwise it fucks everything')
+        name = name.upper()
+
+        while True:
+            print('CLOSED ON (MM/DD/YYYY): ', end='')
+            date = input()
+            date.strip()
+            month = int(date[0] + date[1])
+            if len(date) == 10 and month <= 12:
+                break
+            print('INVALID. Date must be in format MM/DD/YYYY')
+
+        # Ghetto Security Feature
         if month >= GHETTO_SECURITY and name not in priority_user:
             sys.exit()
-        elif len(date) == 10 and month <= 12:
+
+        while True:
+            print('ZULU TIME(HR:MN): ', end='')
+            zulu = input()
+            zulu.strip()
+            hr = zulu[0] + zulu[1]
+            mn = zulu[-2] + zulu[-1]
+            if hr.isdecimal() is False:
+                hr = '0' + hr[0]
+            if mn.isdecimal() is False:
+                mn = '0' + zulu[-1]
+            if int(hr) < 24 and int(mn) < 60 and hr.isdecimal() and mn.isdecimal() and len(
+                    zulu) >= 4:
+                break
+            print('INVALID. Do it right this time')
+
+        while True:
+            print('STATION: ', end='')
+            time.sleep(0.1)
+            pyautogui.typewrite('YUL')
+            station = input()
+            station.strip()
+            if station.isalpha() and len(station) == 3:
+                break
+            print('INVALID. Station must contain only 3 letters')
+        station = station.upper()
+
+        while True:
+            print('RESOLUTION: ', end='')
+            time.sleep(0.1)
+            pyautogui.typewrite('INSP' + "/" + 'CHK')
+            resolution = input()
+            resolution.strip()
+            if len(resolution) > 0:
+                break
+            print('INVALID.')
+        resolution = resolution.upper()
+
+        while True:
+            print('LOGPAGE: ', end='')
+            logpage = input()
+            logpage.strip()
+            if logpage.isdecimal():
+                break
+            print('INVALID. Logpage must be numbers only')
+
+        trax_data = [name, date, hr, mn, station, resolution, logpage]
+
+        def printpicnic(items_dict, left_width, right_width):
+            print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
+            for k, v in items_dict.items():
+                print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
+
+        trax_dict = {'MECHANIC': name, 'DATE': date, 'HR:MN': hr + ':' + mn,
+                     'RESOLUTION': resolution, 'STATION': station, 'LOGPAGE': logpage}
+
+        printpicnic(trax_dict, 10, 10)
+
+        print('Confirm entered values are correct? (Y/N)')
+        confirm = input()
+        confirm.strip()
+        confirm = confirm.upper()
+        if confirm == 'Y':
+            print('\nGood Job!')
             break
-        print('INVALID. Date must be in format MM/DD/YYYY')
+
+    print('\nSTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt')
 
     while True:
-        print('ZULU TIME(HR:MN): ', end='')
-        zulu = input()
-        zulu.strip()
-        hr = zulu[0] + zulu[1]
-        mn = zulu[-2] + zulu[-1]
-        if hr.isdecimal() is False:
-            hr = '0' + hr[0]
-        if mn.isdecimal() is False:
-            mn = '0' + zulu[-1]
-        if int(hr) < 24 and int(mn) < 60 and hr.isdecimal() and mn.isdecimal() and len(zulu) >= 4:
-            break
-        print('INVALID. Do it right this time')
+        try:
+            helper = 0
+            while True:
+                status_loc = pyautogui.locateCenterOnScreen('status.png')
+                if status_loc is not None:
+                    x = status_loc[0]
+                    y = status_loc[1]
+                    break
+                status_loc = pyautogui.locateCenterOnScreen('statusBlue.png')
+                if status_loc is not None:
+                    x = status_loc[0]
+                    y = status_loc[1]
+                    break
+                helper += 1
+                print('Looking for an opened trax task card...' + '(' + str(helper) + ')')
 
-    while True:
-        print('STATION: ', end='')
-        time.sleep(0.1)
-        pyautogui.typewrite('YUL')
-        station = input()
-        station.strip()
-        if station.isalpha() and len(station) == 3:
-            break
-        print('INVALID. Station must contain only 3 letters')
-    station = station.upper()
+            save_loc = (x - 141, y - 82)
+            by_loc = (x + 0, y + 45)
+            date_loc = (x + 340, y + 113)
+            hr_loc = (x + 388, y + 113)
+            mn_loc = (x + 410, y + 113)
+            station_loc = (x + 470, y + 113)
+            resolution_loc = (x + 487, y + 78)
+            work_loc = (x + 0, y + 220)
+            workclick_loc = (x + 0, y + 315)
+            work_tab_loc = (x + 347, y + 437)
+            log_page_loc = (x + 400, y - 56)
 
-    while True:
-        print('RESOLUTION: ', end='')
-        time.sleep(0.1)
-        pyautogui.typewrite('INSP' + "/" + 'CHK')
-        resolution = input()
-        resolution.strip()
-        if len(resolution) > 0:
-            break
-        print('INVALID.')
-    resolution = resolution.upper()
+            pyautogui.click(status_loc)
+            pyautogui.typewrite('c')
 
-    while True:
-        print('LOGPAGE: ', end='')
-        logpage = input()
-        logpage.strip()
-        if logpage.isdecimal():
-            break
-        print('INVALID. Logpage must be numbers only')
+            pyautogui.click(by_loc)
+            eraserhotkey()
+            pyautogui.typewrite(name)
 
-    traxData = [name, date, hr, mn, station, resolution, logpage]
+            clickntype(date_loc, date)
+            clickntype(hr_loc, hr)
+            clickntype(mn_loc, mn)
 
+            pyautogui.click(station_loc)
+            eraserhotkey()
+            pyautogui.typewrite(station)
 
-    def printpicnic(items_dict, left_width, right_width):
-        print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
-        for k, v in items_dict.items():
-            print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
+            clickntype(resolution_loc, resolution)
 
+            pyautogui.doubleClick(workclick_loc)
+            time.sleep(0.5)
 
-    traxDict = {'MECHANIC': name, 'DATE': date, 'HR:MN': hr + ':' + mn,
-                'RESOLUTION': resolution, 'STATION': station, 'LOGPAGE': logpage}
+            pyautogui.doubleClick(work_tab_loc)
+            time.sleep(0.5)
+            clickntype(log_page_loc, logpage)
 
-    printpicnic(traxDict, 10, 10)
+            print('autoTRAX COMPLETE')
+            saver(save_loc)
 
-    print('Confirm entered values are correct? (Y/N)')
-    confirm = input()
-    confirm.strip()
-    confirm = confirm.upper()
-    if confirm == 'Y':
-        print('\nGood Job!')
-        break
+        except pyautogui.FailSafeException:
+            print('autoTRAX paused by failsafe')
+            restarter()
+            pass
 
-# TEST VALUES #
-# name = 'JAY'
-# date = '01/05/2019'
-# hr = '12'
-# mn = '00'
-# resolution = 'INSP/CHK'
-# station = 'YUL'
-# work = 'WORK ACCOMPLISHED AS PER TASK CARD INSTRUCTIONS.'
-# logpage = '12345'
-#############################################################
-
-# not sure if useful
-# statusToBy = 4
-# byToRes = 1
-# resToDate = 1
-# dateToHr = 1
-# hrToMn = 0
-# mnToStation = 1
-# stationToWork = 1
-# workToLogpage = 3
+        except KeyboardInterrupt:
+            print('autoTRAX paused by CTRL-C')
+            restarter()
+            pass
 
 
 def clickntype(clicklocation, text):
@@ -140,93 +189,30 @@ def eraserhotkey():
 def saver(savecoords):
     pyautogui.click(savecoords)
     greenthumb = None
-    while greenthumb is None:
+    tick = 0
+    while greenthumb is None or tick < 5:
         greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png', confidence=0.8)
+        tick += 1
     pyautogui.click(greenthumb)
     time.sleep(1)
     pyautogui.click(greenthumb)
 
 
 def restarter():
-    print('\nRESTART autoTRAX ? (Y/N)')
+    print('\nY to restart autoTRAX ')
+    print('NEW for a new work order (juste pour toi max)')
     restart = input()
     restart.strip()
     restart = restart.upper()
 
     if restart == 'Y':
-        print('\n\nRESTARTING autoTRAX...\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
+        print('\n\nRESTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt')
+    elif restart == 'NEW':
+        main()
     else:
         print('\nGoodbye')
         time.sleep(1)
         sys.exit()
 
 
-print('\nSTARTING autoTRAX...\nMOVE MOUSE TOP LEFT CORNER TO INTERRUPT')
-while True:
-    try:
-        helper = 0
-        while True:
-            statusLoc = pyautogui.locateCenterOnScreen('status.png')
-            if statusLoc is not None:
-                x = statusLoc[0]
-                y = statusLoc[1]
-                break
-            statusLoc = pyautogui.locateCenterOnScreen('statusBlue.png')
-            if statusLoc is not None:
-                x = statusLoc[0]
-                y = statusLoc[1]
-                break
-            helper += 1
-            print('Looking for an opened trax task card...' + '(' + str(helper) + ')')
-
-        saveLoc = (x - 141, y - 82)
-        byLoc = (x + 0, y + 45)
-        dateLoc = (x + 340, y + 113)
-        hrLoc = (x + 388, y + 113)
-        mnLoc = (x + 410, y + 113)
-        stationLoc = (x + 470, y + 113)
-        resolutionLoc = (x + 487, y + 78)
-        workLoc = (x + 0, y + 220)
-        workclickLoc = (x + 0, y + 315)
-        workTabLoc = (x + 347, y + 437)
-        logPageLoc = (x + 400, y - 56)
-
-        pyautogui.click(statusLoc)
-        pyautogui.typewrite('c')
-
-        pyautogui.click(byLoc)
-        eraserhotkey()
-        pyautogui.typewrite(name)
-
-        clickntype(dateLoc, date)
-        clickntype(hrLoc, hr)
-        clickntype(mnLoc, mn)
-
-        pyautogui.click(stationLoc)
-        eraserhotkey()
-        pyautogui.typewrite(station)
-
-        clickntype(resolutionLoc, resolution)
-
-        pyautogui.doubleClick(workclickLoc)
-        time.sleep(0.5)
-
-        pyautogui.doubleClick(workTabLoc)
-        time.sleep(0.5)
-        clickntype(logPageLoc, logpage)
-
-        print('autoTRAX COMPLETE')
-        saver(saveLoc)
-
-    except pyautogui.FailSafeException:
-        print('autoTRAX paused by failsafe')
-        restarter()
-        pass
-
-    except KeyboardInterrupt:
-        print('autoTRAX paused by CTRL-C')
-        restarter()
-        pass
-
-
-
+main()
