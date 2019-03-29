@@ -159,8 +159,8 @@ def main():
             time.sleep(0.5)
             clickntype(log_page_loc, logpage)
 
-            print('autoTRAX COMPLETE')
             saver(save_loc)
+            print('autoTRAX COMPLETE')
 
         except pyautogui.FailSafeException:
             print('autoTRAX paused by failsafe')
@@ -190,9 +190,11 @@ def saver(savecoords):
     pyautogui.click(savecoords)
     greenthumb = None
     tick = 0
-    while greenthumb is None or tick < 5:
+    while greenthumb is None:
         greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png', confidence=0.8)
         tick += 1
+        if tick > 5:
+            break
     pyautogui.click(greenthumb)
     time.sleep(1)
     pyautogui.click(greenthumb)
