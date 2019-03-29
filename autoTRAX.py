@@ -11,7 +11,7 @@ import cv2
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
 
-priority_user = {'JMORIN', 'DCHARTRA', 'NKJONES'}
+priority_user = {'JMORIN', 'DCHARTRA', 'NKJONES', 'MROUTHIE'}
 GHETTO_SECURITY = 5
 
 
