@@ -202,7 +202,7 @@ def saver(savecoords):
 
 def restarter():
     print('\nY to restart autoTRAX ')
-    print('NEW for a new work order (juste pour toi max)')
+    print('NEW for a new aircraft (juste pour toi max)')
     restart = input()
     restart.strip()
     restart = restart.upper()
