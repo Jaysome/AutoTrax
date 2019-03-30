@@ -6,6 +6,7 @@ import pyautogui
 import pywinauto.keyboard as kb
 import time
 import sys
+import os.path
 import cv2
 
 pyautogui.FAILSAFE = True
@@ -19,17 +20,14 @@ def main():
     while True:
         while True:
             print('MECHANIC: ', end='')
-            name = input()
-            name.strip()
+            name = input().strip().upper()
             if name.isalpha() and len(name) <= 8:
                 break
             print('INVALID. Name must be exactly like in trax otherwise it fucks everything')
-        name = name.upper()
 
         while True:
             print('CLOSED ON (MM/DD/YYYY): ', end='')
-            date = input()
-            date.strip()
+            date = input().strip()
             month = int(date[0] + date[1])
             if len(date) == 10 and month <= 12:
                 break
@@ -41,8 +39,7 @@ def main():
 
         while True:
             print('ZULU TIME(HR:MN): ', end='')
-            zulu = input()
-            zulu.strip()
+            zulu = input().strip()
             hr = zulu[0] + zulu[1]
             mn = zulu[-2] + zulu[-1]
             if hr.isdecimal() is False:
@@ -58,28 +55,23 @@ def main():
             print('STATION: ', end='')
             time.sleep(0.1)
             pyautogui.typewrite('YUL')
-            station = input()
-            station.strip()
+            station = input().strip().upper()
             if station.isalpha() and len(station) == 3:
                 break
             print('INVALID. Station must contain only 3 letters')
-        station = station.upper()
 
         while True:
             print('RESOLUTION: ', end='')
             time.sleep(0.1)
             pyautogui.typewrite('INSP' + "/" + 'CHK')
-            resolution = input()
-            resolution.strip()
+            resolution = input().strip().upper()
             if len(resolution) > 0:
                 break
             print('INVALID.')
-        resolution = resolution.upper()
 
         while True:
             print('LOGPAGE: ', end='')
-            logpage = input()
-            logpage.strip()
+            logpage = input().strip()
             if logpage.isdecimal():
                 break
             print('INVALID. Logpage must be numbers only')
@@ -97,9 +89,7 @@ def main():
         printpicnic(trax_dict, 10, 10)
 
         print('Confirm entered values are correct? (Y/N)')
-        confirm = input()
-        confirm.strip()
-        confirm = confirm.upper()
+        confirm = input().strip().upper()
         if confirm == 'Y':
             print('\nGood Job!')
             break
@@ -202,10 +192,10 @@ def saver(savecoords):
 
 def restarter():
     print('\nY to restart autoTRAX ')
-    print('NEW for a new aircraft (juste pour toi max)')
-    restart = input()
-    restart.strip()
-    restart = restart.upper()
+    print('NEW for a new aircraft', end='')
+    if os.path.isfile('max.txt'):
+        print(' (juste pour toi max)')
+    restart = input().strip().upper()
 
     if restart == 'Y':
         print('\n\nRESTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt')
