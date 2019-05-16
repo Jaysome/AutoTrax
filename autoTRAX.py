@@ -6,95 +6,106 @@ import pyautogui
 import pywinauto.keyboard as kb
 import time
 import sys
-import os.path
+import ctypes
 import cv2
 
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
 
-
-priority_user = {'JMORIN', 'DCHARTRA', 'NKJONES', 'MROUTHIE', 'NTHIVIER', 'MOUELLET', 'PSIMARD',
-                 'AWESTWOO', 'SFRICOTT', 'GLAURIN', 'JLABERGE', 'SROY'}
-GHETTO_SECURITY = 7
+team_one = {'JMORIN', 'DCHARTRA', 'NKJONES', 'MROUTHIE', 'MOUELLET', 'PSIMARD', 'AWESTWOO',
+            'SFRICOTT', 'GLAURIN', 'JLABERGE', 'MCOUTURE', 'KFEKKAR', 'GVALLEE', 'MPOIRIER',
+            'GPAQUIN', 'JGRENON'}
+team_snake = {'NTHIVIER', 'SROY', 'JRICHARD', 'SDERY', 'FLANGLOI', 'SSTPIERR', 'RLEROUX', 'CGAGNON',
+              'XWANG', 'EBROOKER', 'ZDEJANOV', 'LDOBSON'}
 
 
 def main():
     while True:
-        while True:
-            print('MECHANIC: ', end='')
-            name = input().strip().upper()
-            if name.isalpha() and len(name) <= 8:
-                break
-            print('INVALID! Name must be exactly like in trax otherwise it fucks everything')
-
-        while True:
-            print('CLOSED ON (MM/DD/YYYY): ', end='')
-            date = input().strip()
-            if len(date) == 10:
-                full_date = fulldate(date)
-                if month <= 12:
+        try:
+            while True:
+                print('\nMECHANIC: ', end='')
+                name = input().strip().upper()
+                if name.isalpha() and len(name) <= 8:
                     break
-            print('INVALID! Date must be in format MM/DD/YYYY')
+                print('INVALID! Name must be exactly like in trax otherwise it fucks everything')
 
-        # Ghetto Security Feature
-        if month >= GHETTO_SECURITY and name not in priority_user:
-            sys.exit()
+            if name in team_one:
+                print('You are an illustrious member of Team One.')
+            elif name in team_snake:
+                print('You are an approved member of Team Snake.')
+            else:
+                print('You are not an approved user. Please contact your system administrator.')
+                time.sleep(3)
+                sys.exit()
 
-        while True:
-            print('ZULU TIME(HR:MN): ', end='')
-            zulu = input().strip()
-            hr = zulu[0] + zulu[1]
-            mn = zulu[-2] + zulu[-1]
-            if hr.isdecimal() is False:
-                hr = '0' + hr[0]
-            if mn.isdecimal() is False:
-                mn = '0' + zulu[-1]
-            if int(hr) < 24 and int(mn) < 60 and hr.isdecimal() and mn.isdecimal() and len(
-                    zulu) >= 4:
+            while True:
+                print('CLOSED ON (MM/DD/YYYY): ', end='')
+                date = input().strip()
+                if len(date) == 10:
+                    full_date = fulldate(date)
+                    if month <= 12:
+                        break
+                print('INVALID! Date must be in format MM/DD/YYYY')
+
+            while True:
+                print('ZULU TIME(HR:MN): ', end='')
+                zulu = input().strip()
+                hr = zulu[0] + zulu[1]
+                mn = zulu[-2] + zulu[-1]
+                if hr.isdecimal() is False:
+                    hr = '0' + hr[0]
+                if mn.isdecimal() is False:
+                    mn = '0' + zulu[-1]
+                if int(hr) < 24 and int(mn) < 60 and hr.isdecimal() and mn.isdecimal() and len(
+                        zulu) >= 4:
+                    break
+                print('INVALID! Do it right this time')
+
+            while True:
+                print('STATION: ', end='')
+                time.sleep(0.1)
+                pyautogui.typewrite('YUL')
+                station = input().strip().upper()
+                if station.isalpha() and len(station) == 3:
+                    break
+                print('INVALID! Station must contain only 3 letters')
+
+            while True:
+                print('RESOLUTION: ', end='')
+                time.sleep(0.1)
+                pyautogui.typewrite('INSP' + "/" + 'CHK')
+                resolution = input().strip().upper()
+                if len(resolution) > 0:
+                    break
+                print('INVALID!')
+
+            while True:
+                print('LOGPAGE: ', end='')
+                logpage = input().strip()
+                first = logpage[0]
+                if logpage.isdecimal() or first == 'f' or first == 'F':
+                    break
+                print('INVALID logpage format')
+
+            def printpicnic(items_dict, left_width, right_width):
+                print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
+                for k, v in items_dict.items():
+                    print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
+
+            trax_dict = {'MECHANIC': name, 'DATE': full_date, 'HR:MN': hr + ':' + mn,
+                         'RESOLUTION': resolution, 'STATION': station, 'LOGPAGE': logpage}
+
+            printpicnic(trax_dict, 10, 11)
+
+            print('Confirm entered values are correct? (Y/N)')
+            confirm = input().strip().upper()
+            if confirm == 'Y':
+                print('\nGood Job!')
                 break
-            print('INVALID! Do it right this time')
 
-        while True:
-            print('STATION: ', end='')
-            time.sleep(0.1)
-            pyautogui.typewrite('YUL')
-            station = input().strip().upper()
-            if station.isalpha() and len(station) == 3:
-                break
-            print('INVALID! Station must contain only 3 letters')
-
-        while True:
-            print('RESOLUTION: ', end='')
-            time.sleep(0.1)
-            pyautogui.typewrite('INSP' + "/" + 'CHK')
-            resolution = input().strip().upper()
-            if len(resolution) > 0:
-                break
-            print('INVALID!')
-
-        while True:
-            print('LOGPAGE: ', end='')
-            logpage = input().strip()
-            first = logpage[0]
-            if logpage.isdecimal() or first is 'f' or first is 'F':
-                break
-            print('INVALID logpage format')
-
-        def printpicnic(items_dict, left_width, right_width):
-            print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
-            for k, v in items_dict.items():
-                print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
-
-        trax_dict = {'MECHANIC': name, 'DATE': full_date, 'HR:MN': hr + ':' + mn,
-                     'RESOLUTION': resolution, 'STATION': station, 'LOGPAGE': logpage}
-
-        printpicnic(trax_dict, 10, 11)
-
-        print('Confirm entered values are correct? (Y/N)')
-        confirm = input().strip().upper()
-        if confirm == 'Y':
-            print('\nGood Job!')
-            break
+        except KeyboardInterrupt:
+            main()
+            pass
 
     print('\nSTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt')
 
@@ -194,7 +205,7 @@ def saver(savecoords):
 
 def restarter():
     print('\nY to restart autoTRAX ')
-    print('NEW for a new aircraft', end='')
+    print('NEW for a new aircraft')
     # if os.path.isfile('max.txt'):
     #   print(' (juste pour toi max)')
     restart = input().strip().upper()
@@ -221,4 +232,6 @@ def fulldate(date):
     return str(day) + ' ' + months_dict.get(month) + ' ' + str(year)
 
 
+ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX 1.3")
+print('Welcome to autoTRAX 1.3, Enjoy!')
 main()
