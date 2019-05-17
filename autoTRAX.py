@@ -7,16 +7,17 @@ import pywinauto.keyboard as kb
 import time
 import sys
 import ctypes
+import random
 import cv2
 
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
 
-team_one = {'JMORIN', 'DCHARTRA', 'NKJONES', 'MROUTHIE', 'MOUELLET', 'PSIMARD', 'AWESTWOO',
-            'SFRICOTT', 'GLAURIN', 'JLABERGE', 'MCOUTURE', 'KFEKKAR', 'GVALLEE', 'MPOIRIER',
-            'GPAQUIN', 'JGRENON'}
-team_snake = {'NTHIVIER', 'SROY', 'JRICHARD', 'SDERY', 'FLANGLOI', 'SSTPIERR', 'RLEROUX', 'CGAGNON',
-              'XWANG', 'EBROOKER', 'ZDEJANOV', 'LDOBSON'}
+team_one = ['JMORIN', 'AWESTWOO', 'DCHARTRA', 'GLAURIN', 'GPAQUIN', 'GVALLEE', 'JGRENON',
+            'JLABERGE', 'KFEKKAR', 'MCOUTURE', 'MOUELLET', 'MPOIRIER', 'MROUTHIE', 'NKJONES',
+            'PSIMARD', 'SFRICOTT']
+team_snake = ['CGAGNON', 'EBROOKER', 'FLANGLOI', 'JRICHARD', 'LDOBSON', 'NTHIVIER', 'RLEROUX',
+              'SDERY', 'SROY', 'SSTPIERR', 'XWANG', 'ZDEJANOV']
 
 
 def main():
@@ -30,9 +31,9 @@ def main():
                 print('INVALID! Name must be exactly like in trax otherwise it fucks everything')
 
             if name in team_one:
-                print('You are an illustrious member of Team One.')
+                print('You are ' + adjective(1) + ' member of Team One.')
             elif name in team_snake:
-                print('You are an approved member of Team Snake.')
+                print('You are ' + adjective(2) + ' member of Team Snake.')
             else:
                 print('You are not an approved user. Please contact your system administrator.')
                 time.sleep(3)
@@ -230,6 +231,23 @@ def fulldate(date):
     year = int(date[6] + date[7] + date[8] + date[9])
 
     return str(day) + ' ' + months_dict.get(month) + ' ' + str(year)
+
+
+def adjective(team):
+    if team == 1:
+        return random.choice(
+            ['a brilliant', 'a celebrated', 'a distinguished', 'a fabulous', 'a glorious',
+             'a legendary', 'a noble', 'a phenomenal', 'a prodigious', 'a remarkable', 'a renowned',
+             'a revered', 'a splendid', 'a stupendous', 'a sublime', 'a superior', 'a venerated',
+             'a wonderful', 'an amazing', 'an eminent', 'an esteemed', 'an exalted', 'an excellent',
+             'an exceptional', 'an extraordinary', 'an honored', 'an illustrious',
+             'an outstanding'])
+    else:
+        return random.choice(
+            ['a', 'a good enough', 'a passable', 'a permitted', 'a satisfactory', 'a sufficient',
+             'a suitable', 'a valid', 'a worthy', 'an acceptable', 'an accepted', 'an adequate',
+             'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
+             'an authorized'])
 
 
 ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX 1.3")
