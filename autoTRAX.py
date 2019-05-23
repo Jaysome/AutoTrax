@@ -8,6 +8,7 @@ import time
 import sys
 import ctypes
 import random
+import datetime
 import cv2
 
 pyautogui.FAILSAFE = True
@@ -41,12 +42,28 @@ def main():
 
             while True:
                 print('CLOSED ON (MM/DD/YYYY): ', end='')
+                now = datetime.datetime.utcnow()
+                time.sleep(0.1)
+                pyautogui.typewrite(now.strftime("%m/%d/%Y"))
                 date = input().strip()
                 if len(date) == 10:
                     full_date = fulldate(date)
                     if month <= 12:
                         break
                 print('INVALID! Date must be in format MM/DD/YYYY')
+
+            # if i ever want to implement written date
+            # while True:
+            #     print('CLOSED ON (DD-MMM-YYYY): ', end='')
+            #     time.sleep(0.1)
+            #     now = datetime.datetime.utcnow()
+            #     pyautogui.typewrite(now.strftime("%d %b %Y"))
+            #     date2 = input().strip()
+            #     if len(date2) == 11:
+            #         date = reversefulldate(date2)
+            #         print(date)
+            #         break
+            #     print('INVALID! Date must be in format DD-MMM-YYYY')
 
             while True:
                 print('ZULU TIME(HR:MN): ', end='')
@@ -233,6 +250,20 @@ def fulldate(date):
     return str(day) + ' ' + months_dict.get(month) + ' ' + str(year)
 
 
+# if i ever want to implement written months
+def reversefulldate(date2):
+    reverse_months_dict = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
+                           'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
+    dd = int(date2[0] + date2[1])
+    mmm = date2[3] + date2[4] + date2[5]
+    mmm = mmm.upper()
+    mm = str(reverse_months_dict.get(mmm))
+    if len(mm) < 2:
+        mm = '0' + mm
+    yyyy = int(date2[7] + date2[8] + date2[9] + date2[10])
+    return str(mm) + '/' + str(dd) + '/' + str(yyyy)
+
+
 def adjective(team):
     if team == 1:
         return random.choice(
@@ -250,6 +281,6 @@ def adjective(team):
              'an authorized'])
 
 
-ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX 1.3")
-print('Welcome to autoTRAX 1.3, Enjoy!')
+ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX 1.4")
+print('Welcome to autoTRAX 1.4, Enjoy!')
 main()
