@@ -9,6 +9,8 @@ import sys
 import ctypes
 import random
 import datetime
+# statement used for greenthumb confidence
+# noinspection PyUnresolvedReferences
 import cv2
 
 pyautogui.FAILSAFE = True
@@ -68,16 +70,16 @@ def main():
             while True:
                 print('ZULU TIME(HR:MN): ', end='')
                 zulu = input().strip()
-                hr = zulu[0] + zulu[1]
-                mn = zulu[-2] + zulu[-1]
-                if hr.isdecimal() is False:
-                    hr = '0' + hr[0]
-                if mn.isdecimal() is False:
-                    mn = '0' + zulu[-1]
-                if int(hr) < 24 and int(mn) < 60 and hr.isdecimal() and mn.isdecimal() and len(
-                        zulu) >= 4:
-                    break
-                print('INVALID! Do it right this time')
+                if len(zulu) == 4 or len(zulu) == 5:
+                    hr = zulu[0] + zulu[1]
+                    mn = zulu[-2] + zulu[-1]
+                    if hr.isdecimal() is False:
+                        hr = '0' + zulu[0]
+                    if mn.isdecimal() is False:
+                        mn = '0' + zulu[-1]
+                    if hr.isdecimal() and mn.isdecimal() and int(hr) < 24 and int(mn) < 60:
+                        break
+                print('INVALID! Only HR:MN and HRMN format is accepted')
 
             while True:
                 print('STATION: ', end='')
