@@ -18,12 +18,7 @@ import cv2
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
 
-team_one = ['JMORIN', 'AWESTWOO', 'DCHARTRA', 'GLAURIN', 'GPAQUIN', 'GVALLEE', 'JGRENON',
-            'JLABERGE', 'KFEKKAR', 'MCOUTURE', 'MOUELLET', 'MPOIRIER', 'MROUTHIE', 'NKJONES',
-            'PSIMARD', 'SFRICOTT']
-team_snake = ['CGAGNON', 'EBROOKER', 'FLANGLOI', 'JRICHARD', 'LDOBSON', 'NTHIVIER', 'RLEROUX',
-              'SDERY', 'SROY', 'SSTPIERR', 'XWANG', 'ZDEJANOV']
-team_calvin = 'CBOYCE'
+one_true_god = ['JMORIN']
 
 
 def main():
@@ -36,7 +31,12 @@ def main():
                     break
                 print('INVALID! Name must be exactly like in trax otherwise it fucks everything')
 
-            checknprintwithadjective(name)
+            if name in one_true_god:
+                print('You are ' + adjective(1) + ' one true god.')
+            else:
+                print('You are not ready to possess this power!')
+                time.sleep(3)
+                sys.exit()
 
             while True:
                 print('CLOSED ON (MM/DD/YYYY): ', end='')
@@ -283,5 +283,5 @@ def checknprintwithadjective(name):
 
 
 ctypes.windll.kernel32.SetConsoleTitleW("SUPERautoTRAX")
-print('This is the super secret version')
+print('This is the super secret version!')
 main()
