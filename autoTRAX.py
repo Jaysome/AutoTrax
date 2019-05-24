@@ -112,7 +112,12 @@ def main():
         try:
             helper = 0
             while True:
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'), grayscale=True)
+                # super auto mode #
+                pointer_loc = pyautogui.locateCenterOnScreen('img\\pointer.png', confidence=0.8)
+                if pointer_loc is not None:
+                    pyautogui.doubleClick(pointer_loc)
+                    # # #
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'))
                 if status_loc is not None:
                     break
                 status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'), grayscale=True)
@@ -121,6 +126,7 @@ def main():
                 status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'), grayscale=True)
                 if status_loc is not None:
                     break
+
                 helper += 1
                 print('Looking for a trax task card...' + '(' + str(helper) + ')', end='\r')
                 if helper >= 100:
@@ -276,7 +282,6 @@ def checknprintwithadjective(name):
         sys.exit()
 
 
-ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX " + __version__)
-print('Welcome to autoTRAX ' + __version__ + ', Enjoy!')
-print('To get the latest version of autoTRAX go to bit.ly/skyautotrax')
+ctypes.windll.kernel32.SetConsoleTitleW("SUPERautoTRAX")
+print('This is the super secret version')
 main()
