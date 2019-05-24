@@ -122,7 +122,9 @@ def main():
                 if status_loc is not None:
                     break
                 helper += 1
-                print('Looking for an opened trax task card...' + '(' + str(helper) + ')', end='\r')
+                print('Looking for a trax task card...' + '(' + str(helper) + ')', end='\r')
+                if helper >= 100:
+                    raise KeyboardInterrupt
 
             x = status_loc[0]
             y = status_loc[1]
