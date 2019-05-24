@@ -38,7 +38,7 @@ def main():
             elif name in team_snake:
                 print('You are ' + adjective(2) + ' member of Team Snake.')
             else:
-                print('You are not an approved user. Please contact your system administrator.')
+                print('You are not an approved user! Please contact your system administrator')
                 time.sleep(3)
                 sys.exit()
 
@@ -127,7 +127,7 @@ def main():
             main()
             pass
 
-    print('\nSTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt')
+    print('\nSTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt\n')
 
     while True:
         try:
@@ -144,7 +144,7 @@ def main():
                     y = status_loc[1]
                     break
                 helper += 1
-                print('Looking for an opened trax task card...' + '(' + str(helper) + ')')
+                print('Looking for an opened trax task card...' + '(' + str(helper) + ')', end='\r')
 
             save_loc = (x - 141, y - 82)
             by_loc = (x + 0, y + 45)
@@ -153,10 +153,10 @@ def main():
             mn_loc = (x + 410, y + 113)
             station_loc = (x + 470, y + 113)
             resolution_loc = (x + 487, y + 78)
-            work_loc = (x + 0, y + 220)
             workclick_loc = (x + 0, y + 315)
             work_tab_loc = (x + 347, y + 437)
             log_page_loc = (x + 400, y - 56)
+            # work_loc = (x + 0, y + 220)
 
             pyautogui.click(status_loc)
             pyautogui.typewrite('c')
@@ -183,15 +183,15 @@ def main():
             clickntype(log_page_loc, logpage)
 
             saver(save_loc)
-            print('autoTRAX COMPLETE')
+            print('\nautoTRAX COMPLETE')
 
         except pyautogui.FailSafeException:
-            print('autoTRAX paused by failsafe')
+            print('\nautoTRAX paused by failsafe')
             restarter()
             pass
 
         except KeyboardInterrupt:
-            print('autoTRAX paused by CTRL-C')
+            print('\nautoTRAX paused by CTRL-C')
             restarter()
             pass
 
@@ -231,7 +231,7 @@ def restarter():
     restart = input().strip().upper()
 
     if restart == 'Y':
-        print('\n\nRESTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt')
+        print('\n\nRESTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt\n')
     elif restart == 'NEW':
         main()
     else:
@@ -241,7 +241,6 @@ def restarter():
 
 
 def fulldate(date):
-    # todo: allow entry of one number for months
     global month
     months_dict = {1: 'JAN', 2: 'FEB', 3: 'MAR', 4: 'APR', 5: 'MAY', 6: 'JUN', 7: 'JUL',
                    8: 'AUG', 9: 'SEP', 10: 'OCT', 11: 'NOV', 12: 'DEC'}
@@ -270,10 +269,10 @@ def adjective(team):
     if team == 1:
         return random.choice(
             ['a brilliant', 'a celebrated', 'a distinguished', 'a fabulous', 'a glorious',
-             'a legendary', 'a noble', 'a phenomenal', 'a prodigious', 'a remarkable', 'a renowned',
-             'a revered', 'a splendid', 'a stupendous', 'a sublime', 'a superior', 'a venerated',
-             'a wonderful', 'an amazing', 'an eminent', 'an esteemed', 'an exalted', 'an excellent',
-             'an exceptional', 'an extraordinary', 'an honored', 'an illustrious',
+             'a legendary', 'a noble', 'a phenomenal', 'a prodigious', 'a quality' 'a remarkable',
+             'a renowned', 'a revered', 'a splendid', 'a stupendous', 'a sublime', 'a superior',
+             'a venerated', 'a wonderful', 'an amazing', 'an eminent', 'an esteemed', 'an exalted',
+             'an excellent', 'an exceptional', 'an extraordinary', 'an honored', 'an illustrious',
              'an outstanding'])
     else:
         return random.choice(
