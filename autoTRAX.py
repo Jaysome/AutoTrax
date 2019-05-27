@@ -1,6 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
+__version__ = "1.4.1"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -107,15 +108,10 @@ def main():
                     break
                 print('INVALID logpage format')
 
-            def printpicnic(items_dict, left_width, right_width):
-                print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
-                for k, v in items_dict.items():
-                    print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
-
             trax_dict = {'MECHANIC': name, 'DATE': full_date, 'HR:MN': hr + ':' + mn,
                          'RESOLUTION': resolution, 'STATION': station, 'LOGPAGE': logpage}
 
-            printpicnic(trax_dict, 10, 11)
+            printconfirmation(trax_dict, 10, 11)
 
             print('Confirm entered values are correct? (Y/N)')
             confirm = input().strip().upper()
@@ -196,6 +192,12 @@ def main():
             pass
 
 
+def printconfirmation(items_dict, left_width, right_width):
+    print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
+    for k, v in items_dict.items():
+        print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
+
+
 def clickntype(clicklocation, text):
     pyautogui.click(clicklocation)
     pyautogui.typewrite(text)
@@ -269,7 +271,7 @@ def adjective(team):
     if team == 1:
         return random.choice(
             ['a brilliant', 'a celebrated', 'a distinguished', 'a fabulous', 'a glorious',
-             'a legendary', 'a noble', 'a phenomenal', 'a prodigious', 'a quality' 'a remarkable',
+             'a legendary', 'a noble', 'a phenomenal', 'a prodigious', 'a quality', 'a remarkable',
              'a renowned', 'a revered', 'a splendid', 'a stupendous', 'a sublime', 'a superior',
              'a venerated', 'a wonderful', 'an amazing', 'an eminent', 'an esteemed', 'an exalted',
              'an excellent', 'an exceptional', 'an extraordinary', 'an honored', 'an illustrious',
@@ -282,6 +284,6 @@ def adjective(team):
              'an authorized'])
 
 
-ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX 1.4")
-print('Welcome to autoTRAX 1.4, Enjoy!')
+ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX " + __version__)
+print('Welcome to autoTRAX ' + __version__ + ', Enjoy!')
 main()
