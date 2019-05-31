@@ -103,9 +103,10 @@ def main():
             while True:
                 print('LOGPAGE: ', end='')
                 logpage = input().strip()
-                first = logpage[0]
-                if logpage.isdecimal() or first == 'f' or first == 'F':
-                    break
+                if logpage:
+                    first = logpage[0]
+                    if logpage.isdecimal() or first == 'f' or first == 'F':
+                        break
                 print('INVALID logpage format')
 
             trax_dict = {'MECHANIC': name, 'DATE': full_date, 'HR:MN': hr + ':' + mn,
@@ -275,13 +276,14 @@ def adjective(team):
              'a renowned', 'a revered', 'a splendid', 'a stupendous', 'a sublime', 'a superior',
              'a venerated', 'a wonderful', 'an amazing', 'an eminent', 'an esteemed', 'an exalted',
              'an excellent', 'an exceptional', 'an extraordinary', 'an honored', 'an illustrious',
-             'an outstanding'])
+             'an outstanding', 'a sexy', 'an admirable', 'a commendable', 'an honorable', 'a model',
+             'a valuable', 'a great', 'a worthy', 'a solid', 'an exemplary', 'an invaluable'])
     else:
         return random.choice(
             ['a', 'a good enough', 'a passable', 'a permitted', 'a satisfactory', 'a sufficient',
              'a suitable', 'a valid', 'a worthy', 'an acceptable', 'an accepted', 'an adequate',
              'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
-             'an authorized'])
+             'an authorized', 'a fair enough'])
 
 
 ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX " + __version__)
