@@ -131,17 +131,17 @@ def main():
         try:
             helper = 0
             while True:
-                status_loc = pyautogui.locateCenterOnScreen('img\\status.png')
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'))
                 if status_loc is not None:
                     x = status_loc[0]
                     y = status_loc[1]
                     break
-                status_loc = pyautogui.locateCenterOnScreen('img\\statusBlue.png')
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'))
                 if status_loc is not None:
                     x = status_loc[0]
                     y = status_loc[1]
                     break
-                status_loc = pyautogui.locateCenterOnScreen('img\\statusWhite.png')
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'))
                 if status_loc is not None:
                     x = status_loc[0]
                     y = status_loc[1]
@@ -223,7 +223,7 @@ def saver(savecoords):
     greenthumb = None
     tick = 0
     while greenthumb is None:
-        greenthumb = pyautogui.locateCenterOnScreen('img\\greenThumb.png', confidence=0.8)
+        greenthumb = pyautogui.locateCenterOnScreen(resource_path('img\\greenThumb.png'), confidence=0.8)
         tick += 1
         if tick > 5:
             break
@@ -272,6 +272,16 @@ def reversefulldate(date2):
         mm = '0' + mm
     yyyy = int(date2[7] + date2[8] + date2[9] + date2[10])
     return str(mm) + '/' + str(dd) + '/' + str(yyyy)
+
+# gets absolute path for dev and pyinstaller
+def resource_path(relative_path):
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 def adjective(team):
