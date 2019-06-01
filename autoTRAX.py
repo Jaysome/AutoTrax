@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.4.1"
+__version__ = "1.5"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -10,6 +10,7 @@ import sys
 import ctypes
 import random
 import datetime
+import os
 # statement used for greenthumb confidence
 # noinspection PyUnresolvedReferences
 import cv2
@@ -130,12 +131,17 @@ def main():
         try:
             helper = 0
             while True:
-                status_loc = pyautogui.locateCenterOnScreen('status.png')
+                status_loc = pyautogui.locateCenterOnScreen('img\\status.png')
                 if status_loc is not None:
                     x = status_loc[0]
                     y = status_loc[1]
                     break
-                status_loc = pyautogui.locateCenterOnScreen('statusBlue.png')
+                status_loc = pyautogui.locateCenterOnScreen('img\\statusBlue.png')
+                if status_loc is not None:
+                    x = status_loc[0]
+                    y = status_loc[1]
+                    break
+                status_loc = pyautogui.locateCenterOnScreen('img\\statusWhite.png')
                 if status_loc is not None:
                     x = status_loc[0]
                     y = status_loc[1]
@@ -217,7 +223,7 @@ def saver(savecoords):
     greenthumb = None
     tick = 0
     while greenthumb is None:
-        greenthumb = pyautogui.locateCenterOnScreen('greenThumb.png', confidence=0.8)
+        greenthumb = pyautogui.locateCenterOnScreen('img\\greenThumb.png', confidence=0.8)
         tick += 1
         if tick > 5:
             break
@@ -288,4 +294,5 @@ def adjective(team):
 
 ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX " + __version__)
 print('Welcome to autoTRAX ' + __version__ + ', Enjoy!')
+print('To get the latest version of autoTRAX go to bit.ly/skyautotrax')
 main()
