@@ -6,17 +6,10 @@
 
 \dist/
 
-
 autoTRAX\.spec
-
-__pycache__/autoTRAX\.cpython-37\.pyc
-
-zNEW BUILD MAKER\.txt
-
-zNEW BUILD MAKER\.bat
 
 max\.txt
 
-zTESTBUILDMAKER\.bat
-
 *.bat
+
+__pycache__/
