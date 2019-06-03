@@ -112,11 +112,6 @@ def main():
         try:
             helper = 0
             while True:
-                # super auto mode #
-                pointer_loc = pyautogui.locateCenterOnScreen('img\\pointer.png', confidence=0.8)
-                if pointer_loc is not None:
-                    pyautogui.doubleClick(pointer_loc)
-                    # # #
                 status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'))
                 if status_loc is not None:
                     break
@@ -126,7 +121,13 @@ def main():
                 status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'), grayscale=True)
                 if status_loc is not None:
                     break
-
+                # super auto mode #
+                pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'), confidence=0.8)
+                if pointer_loc is not None:
+                    pyautogui.doubleClick(pointer_loc)
+                    time.sleep(0.5)
+                    pointer_loc = None
+                    # # #
                 helper += 1
                 print('Looking for a trax task card...' + '(' + str(helper) + ')', end='\r')
                 if helper >= 100:
