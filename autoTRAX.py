@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.5.2"
+__version__ = "SS2"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -16,7 +16,7 @@ import os
 import cv2
 
 pyautogui.FAILSAFE = True
-pyautogui.PAUSE = 0.2
+pyautogui.PAUSE = 0.3
 
 one_true_god = ['JMORIN']
 
@@ -122,16 +122,19 @@ def main():
                 if status_loc is not None:
                     break
                 # super auto mode #
-                pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'), confidence=0.8)
+                pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'))
                 if pointer_loc is not None:
                     pyautogui.doubleClick(pointer_loc)
                     time.sleep(0.5)
                     pointer_loc = None
-                    # # #
+                    #   #   #
                 helper += 1
                 print('Looking for a trax task card...' + '(' + str(helper) + ')', end='\r')
+
+                # super auto mode #
                 if helper >= 100:
                     raise KeyboardInterrupt
+                    #   #   #
 
             x = status_loc[0]
             y = status_loc[1]
@@ -284,5 +287,5 @@ def checknprintwithadjective(name):
 
 
 ctypes.windll.kernel32.SetConsoleTitleW("SUPERautoTRAX")
-print('This is the super secret version!')
+print('This is the super secret version ' + __version__ + '!')
 main()
