@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.5"
+__version__ = "1.5.1"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -23,6 +23,7 @@ team_one = ['JMORIN', 'AWESTWOO', 'DCHARTRA', 'GLAURIN', 'GPAQUIN', 'GVALLEE', '
             'PSIMARD', 'SFRICOTT']
 team_snake = ['CGAGNON', 'EBROOKER', 'FLANGLOI', 'JRICHARD', 'LDOBSON', 'NTHIVIER', 'RLEROUX',
               'SDERY', 'SROY', 'SSTPIERR', 'XWANG', 'ZDEJANOV']
+team_calvin = 'CBOYCE'
 
 
 def main():
@@ -35,14 +36,7 @@ def main():
                     break
                 print('INVALID! Name must be exactly like in trax otherwise it fucks everything')
 
-            if name in team_one:
-                print('You are ' + adjective(1) + ' member of Team One.')
-            elif name in team_snake:
-                print('You are ' + adjective(2) + ' member of Team Snake.')
-            else:
-                print('You are not an approved user! Please contact your system administrator')
-                time.sleep(3)
-                sys.exit()
+            verifyandprintwithadjective(name)
 
             while True:
                 print('CLOSED ON (MM/DD/YYYY): ', end='')
@@ -55,19 +49,6 @@ def main():
                     if month <= 12:
                         break
                 print('INVALID! Date must be in format MM/DD/YYYY')
-
-            # if i ever want to implement written date
-            # while True:
-            #     print('CLOSED ON (DD-MMM-YYYY): ', end='')
-            #     time.sleep(0.1)
-            #     now = datetime.datetime.utcnow()
-            #     pyautogui.typewrite(now.strftime("%d %b %Y"))
-            #     date2 = input().strip()
-            #     if len(date2) == 11:
-            #         date = reversefulldate(date2)
-            #         print(date)
-            #         break
-            #     print('INVALID! Date must be in format DD-MMM-YYYY')
 
             while True:
                 print('ZULU TIME(HR:MN): ', end='')
@@ -113,7 +94,7 @@ def main():
             trax_dict = {'MECHANIC': name, 'DATE': full_date, 'HR:MN': hr + ':' + mn,
                          'RESOLUTION': resolution, 'STATION': station, 'LOGPAGE': logpage}
 
-            printconfirmation(trax_dict, 10, 11)
+            printconfirmationofinputs(trax_dict, 10, 11)
 
             print('Confirm entered values are correct? (Y/N)')
             confirm = input().strip().upper()
@@ -133,21 +114,18 @@ def main():
             while True:
                 status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'))
                 if status_loc is not None:
-                    x = status_loc[0]
-                    y = status_loc[1]
                     break
                 status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'))
                 if status_loc is not None:
-                    x = status_loc[0]
-                    y = status_loc[1]
                     break
                 status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'))
                 if status_loc is not None:
-                    x = status_loc[0]
-                    y = status_loc[1]
                     break
                 helper += 1
                 print('Looking for an opened trax task card...' + '(' + str(helper) + ')', end='\r')
+
+            x = status_loc[0]
+            y = status_loc[1]
 
             save_loc = (x - 141, y - 82)
             by_loc = (x + 0, y + 45)
@@ -185,21 +163,21 @@ def main():
             time.sleep(0.5)
             clickntype(log_page_loc, logpage)
 
-            saver(save_loc)
+            savetaskcard(save_loc)
             print('\nautoTRAX COMPLETE')
 
         except pyautogui.FailSafeException:
             print('\nautoTRAX paused by failsafe')
-            restarter()
+            pauseandrestart()
             pass
 
         except KeyboardInterrupt:
             print('\nautoTRAX paused by CTRL-C')
-            restarter()
+            pauseandrestart()
             pass
 
 
-def printconfirmation(items_dict, left_width, right_width):
+def printconfirmationofinputs(items_dict, left_width, right_width):
     print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
     for k, v in items_dict.items():
         print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
@@ -218,12 +196,13 @@ def eraserhotkey():
     kb.SendKeys('^+{RIGHT}')
 
 
-def saver(savecoords):
+def savetaskcard(savecoords):
     pyautogui.click(savecoords)
     greenthumb = None
     tick = 0
     while greenthumb is None:
-        greenthumb = pyautogui.locateCenterOnScreen(resource_path('img\\greenThumb.png'), confidence=0.8)
+        greenthumb = pyautogui.locateCenterOnScreen(resource_path('img\\greenThumb.png'),
+                                                    confidence=0.8, grayscale=True)
         tick += 1
         if tick > 5:
             break
@@ -232,13 +211,10 @@ def saver(savecoords):
     pyautogui.click(greenthumb)
 
 
-def restarter():
+def pauseandrestart():
     print('\nY to restart autoTRAX ')
     print('NEW for a new aircraft')
-    # if os.path.isfile('max.txt'):
-    #   print(' (juste pour toi max)')
     restart = input().strip().upper()
-
     if restart == 'Y':
         print('\n\nRESTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt\n')
     elif restart == 'NEW':
@@ -260,19 +236,6 @@ def fulldate(date):
     return str(day) + ' ' + months_dict.get(month) + ' ' + str(year)
 
 
-# if i ever want to implement written months
-def reversefulldate(date2):
-    reverse_months_dict = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
-                           'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
-    dd = int(date2[0] + date2[1])
-    mmm = date2[3] + date2[4] + date2[5]
-    mmm = mmm.upper()
-    mm = str(reverse_months_dict.get(mmm))
-    if len(mm) < 2:
-        mm = '0' + mm
-    yyyy = int(date2[7] + date2[8] + date2[9] + date2[10])
-    return str(mm) + '/' + str(dd) + '/' + str(yyyy)
-
 # gets absolute path for dev and pyinstaller
 def resource_path(relative_path):
     try:
@@ -284,22 +247,31 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-def adjective(team):
-    if team == 1:
-        return random.choice(
-            ['a brilliant', 'a celebrated', 'a distinguished', 'a fabulous', 'a glorious',
-             'a legendary', 'a noble', 'a phenomenal', 'a prodigious', 'a quality', 'a remarkable',
-             'a renowned', 'a revered', 'a splendid', 'a stupendous', 'a sublime', 'a superior',
-             'a venerated', 'a wonderful', 'an amazing', 'an eminent', 'an esteemed', 'an exalted',
-             'an excellent', 'an exceptional', 'an extraordinary', 'an honored', 'an illustrious',
-             'an outstanding', 'a sexy', 'an admirable', 'a commendable', 'an honorable', 'a model',
-             'a valuable', 'a great', 'a worthy', 'a solid', 'an exemplary', 'an invaluable'])
+def verifyandprintwithadjective(name):
+    team_one_adjectives = random.choice(
+        ['a brilliant', 'a celebrated', 'a distinguished', 'a fabulous', 'a glorious',
+         'a legendary', 'a noble', 'a phenomenal', 'a prodigious', 'a quality', 'a remarkable',
+         'a renowned', 'a revered', 'a splendid', 'a stupendous', 'a sublime', 'a superior',
+         'a venerated', 'a wonderful', 'an amazing', 'an eminent', 'an esteemed', 'an exalted',
+         'an excellent', 'an exceptional', 'an extraordinary', 'an honored', 'an illustrious',
+         'an outstanding', 'a sexy', 'an admirable', 'a commendable', 'an honorable', 'a model',
+         'a valuable', 'a great', 'a worthy', 'a solid', 'an exemplary', 'an invaluable'])
+    team_snake_adjectives = random.choice(
+        ['a', 'a good enough', 'a passable', 'a permitted', 'a satisfactory', 'a sufficient',
+         'a suitable', 'a valid', 'a worthy', 'an acceptable', 'an accepted', 'an adequate',
+         'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
+         'an authorized', 'a fair enough'])
+
+    if name in team_one:
+        print('You are ' + team_one_adjectives + ' member of Team One.')
+    elif name in team_snake:
+        print('You are ' + team_snake_adjectives + ' member of Team Snake.')
+    elif name in team_calvin:
+        print('You are an approved user.')
     else:
-        return random.choice(
-            ['a', 'a good enough', 'a passable', 'a permitted', 'a satisfactory', 'a sufficient',
-             'a suitable', 'a valid', 'a worthy', 'an acceptable', 'an accepted', 'an adequate',
-             'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
-             'an authorized', 'a fair enough'])
+        print('You are not an approved user! Please contact your system administrator.')
+        time.sleep(3)
+        sys.exit()
 
 
 ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX " + __version__)
