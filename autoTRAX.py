@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.5.1"
+__version__ = "1.5.2"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -36,7 +36,7 @@ def main():
                     break
                 print('INVALID! Name must be exactly like in trax otherwise it fucks everything')
 
-            verifyandprintwithadjective(name)
+            checknprintwithadjective(name)
 
             while True:
                 print('CLOSED ON (MM/DD/YYYY): ', end='')
@@ -94,7 +94,7 @@ def main():
             trax_dict = {'MECHANIC': name, 'DATE': full_date, 'HR:MN': hr + ':' + mn,
                          'RESOLUTION': resolution, 'STATION': station, 'LOGPAGE': logpage}
 
-            printconfirmationofinputs(trax_dict, 10, 11)
+            printinputconfirm(trax_dict, 10, 11)
 
             print('Confirm entered values are correct? (Y/N)')
             confirm = input().strip().upper()
@@ -112,13 +112,13 @@ def main():
         try:
             helper = 0
             while True:
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'))
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'), grayscale=True)
                 if status_loc is not None:
                     break
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'))
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'), grayscale=True)
                 if status_loc is not None:
                     break
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'))
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'), grayscale=True)
                 if status_loc is not None:
                     break
                 helper += 1
@@ -177,7 +177,7 @@ def main():
             pass
 
 
-def printconfirmationofinputs(items_dict, left_width, right_width):
+def printinputconfirm(items_dict, left_width, right_width):
     print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
     for k, v in items_dict.items():
         print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
@@ -247,7 +247,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-def verifyandprintwithadjective(name):
+def checknprintwithadjective(name):
     team_one_adjectives = random.choice(
         ['a brilliant', 'a celebrated', 'a distinguished', 'a fabulous', 'a glorious',
          'a legendary', 'a noble', 'a phenomenal', 'a prodigious', 'a quality', 'a remarkable',
