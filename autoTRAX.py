@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "SS2"
+__version__ = "SS3"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -16,7 +16,7 @@ import os
 import cv2
 
 pyautogui.FAILSAFE = True
-pyautogui.PAUSE = 0.3
+pyautogui.PAUSE = 0.2
 
 one_true_god = ['JMORIN']
 
@@ -31,12 +31,7 @@ def main():
                     break
                 print('INVALID! Name must be exactly like in trax otherwise it fucks everything')
 
-            if name in one_true_god:
-                print('You are ' + adjective(1) + ' one true god.')
-            else:
-                print('You are not ready to possess this power!')
-                time.sleep(3)
-                sys.exit()
+            checknprintwithadjective(name)
 
             while True:
                 print('CLOSED ON (MM/DD/YYYY): ', end='')
@@ -112,27 +107,31 @@ def main():
         try:
             helper = 0
             while True:
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'))
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'),
+                                                            confidence=0.9, grayscale=True)
                 if status_loc is not None:
                     break
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'), grayscale=True)
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'),
+                                                            confidence=0.9, grayscale=True)
                 if status_loc is not None:
                     break
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'), grayscale=True)
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'),
+                                                            confidence=0.9, grayscale=True)
                 if status_loc is not None:
                     break
                 # super auto mode #
-                pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'))
+                pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'),
+                                                             confidence=0.8, grayscale=True)
                 if pointer_loc is not None:
                     pyautogui.doubleClick(pointer_loc)
                     time.sleep(0.5)
-                    pointer_loc = None
+                    continue
                     #   #   #
                 helper += 1
                 print('Looking for a trax task card...' + '(' + str(helper) + ')', end='\r')
 
                 # super auto mode #
-                if helper >= 100:
+                if helper >= 50 or wocomplete(helper):
                     raise KeyboardInterrupt
                     #   #   #
 
@@ -184,7 +183,7 @@ def main():
             pass
 
         except KeyboardInterrupt:
-            print('\nautoTRAX paused by CTRL-C')
+            print('\nautoTRAX paused')
             pauseandrestart()
             pass
 
@@ -274,16 +273,21 @@ def checknprintwithadjective(name):
          'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
          'an authorized', 'a fair enough'])
 
-    if name in team_one:
-        print('You are ' + team_one_adjectives + ' member of Team One.')
-    elif name in team_snake:
-        print('You are ' + team_snake_adjectives + ' member of Team Snake.')
-    elif name in team_calvin:
-        print('You are an approved user.')
+    if name in one_true_god:
+        print('You are ' + team_one_adjectives + ' One True God.')
     else:
-        print('You are not an approved user! Please contact your system administrator.')
+        print('You are not ready to possess this power!')
         time.sleep(3)
         sys.exit()
+
+
+def wocomplete(helper):
+    if helper % 5 == 0:
+        red_close_wo = pyautogui.locateOnScreen(resource_path('img\\closeWO.png'), confidence=0.8,
+                                                grayscale=True)
+        if red_close_wo is not None:
+            return True
+    return False
 
 
 ctypes.windll.kernel32.SetConsoleTitleW("SUPERautoTRAX")
