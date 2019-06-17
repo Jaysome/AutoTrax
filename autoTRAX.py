@@ -126,14 +126,12 @@ def main():
                     pyautogui.doubleClick(pointer_loc)
                     time.sleep(0.5)
                     continue
-                    #   #   #
-                helper += 1
-                print('Looking for a trax task card...' + '(' + str(helper) + ')', end='\r')
 
-                # super auto mode #
                 if helper >= 50 or wocomplete(helper):
                     raise KeyboardInterrupt
                     #   #   #
+                helper += 1
+                print('Looking for a trax task card...' + '(' + str(helper) + ')', end='\r')
 
             x = status_loc[0]
             y = status_loc[1]
