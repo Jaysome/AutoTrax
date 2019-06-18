@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "SS4"
+__version__ = "SS5"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -107,6 +107,9 @@ def main():
         try:
             helper = 0
             while True:
+                if wocomplete(helper) is True:
+                    raise KeyboardInterrupt
+
                 status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'),
                                                             confidence=0.9, grayscale=True)
                 if status_loc is not None:
@@ -127,7 +130,7 @@ def main():
                     time.sleep(0.5)
                     continue
 
-                if helper >= 50 or wocomplete(helper):
+                if helper >= 25:
                     raise KeyboardInterrupt
                     #   #   #
                 helper += 1
