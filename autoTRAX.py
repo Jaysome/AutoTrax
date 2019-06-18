@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.5.2"
+__version__ = "1.5.3"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -112,13 +112,16 @@ def main():
         try:
             helper = 0
             while True:
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'), grayscale=True)
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'),
+                                                            grayscale=True)
                 if status_loc is not None:
                     break
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'), grayscale=True)
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'),
+                                                            grayscale=True)
                 if status_loc is not None:
                     break
-                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'), grayscale=True)
+                status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'),
+                                                            grayscale=True)
                 if status_loc is not None:
                     break
                 helper += 1
@@ -219,6 +222,10 @@ def pauseandrestart():
         print('\n\nRESTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt\n')
     elif restart == 'NEW':
         main()
+    elif restart == 'LOVE YOU':
+        print('\nLove you too!')
+        time.sleep(1)
+        sys.exit()
     else:
         print('\nGoodbye')
         time.sleep(1)
@@ -255,7 +262,9 @@ def checknprintwithadjective(name):
          'a venerated', 'a wonderful', 'an amazing', 'an eminent', 'an esteemed', 'an exalted',
          'an excellent', 'an exceptional', 'an extraordinary', 'an honored', 'an illustrious',
          'an outstanding', 'a sexy', 'an admirable', 'a commendable', 'an honorable', 'a model',
-         'a valuable', 'a great', 'a worthy', 'a solid', 'an exemplary', 'an invaluable'])
+         'a valuable', 'a great', 'a worthy', 'a solid', 'an exemplary', 'an invaluable',
+         'an intrepid', 'a fearless', 'a gallant', 'a valiant', 'a valorous', 'an heroic', 'a bold',
+         'a chivalrous', 'a stalwart'])
     team_snake_adjectives = random.choice(
         ['a', 'a good enough', 'a passable', 'a permitted', 'a satisfactory', 'a sufficient',
          'a suitable', 'a valid', 'a worthy', 'an acceptable', 'an accepted', 'an adequate',
@@ -270,7 +279,7 @@ def checknprintwithadjective(name):
         print('You are an approved user.')
     else:
         print('You are not an approved user! Please contact your system administrator.')
-        time.sleep(3)
+        time.sleep(2)
         sys.exit()
 
 
