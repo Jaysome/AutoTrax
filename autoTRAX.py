@@ -264,12 +264,14 @@ def checknprintwithadjective(name):
          'an outstanding', 'a sexy', 'an admirable', 'a commendable', 'an honorable', 'a model',
          'a valuable', 'a great', 'a worthy', 'a solid', 'an exemplary', 'an invaluable',
          'an intrepid', 'a fearless', 'a gallant', 'a valiant', 'a valorous', 'an heroic', 'a bold',
-         'a chivalrous', 'a stalwart'])
+         'a chivalrous', 'a stalwart', 'a powerful', 'an impressive', 'an energetic', 'a dynamic',
+         'an influential', 'a mighty', 'a competent', 'a charismatic', 'an intense', 'an important',
+         'a foremost'])
     team_snake_adjectives = random.choice(
         ['a', 'a good enough', 'a passable', 'a permitted', 'a satisfactory', 'a sufficient',
          'a suitable', 'a valid', 'a worthy', 'an acceptable', 'an accepted', 'an adequate',
          'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
-         'an authorized', 'a fair enough'])
+         'an authorized', 'a fair enough', 'a capable'])
 
     if name in team_one:
         print('You are ' + team_one_adjectives + ' member of Team One.')
