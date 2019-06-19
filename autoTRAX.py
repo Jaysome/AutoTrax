@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "SS5"
+__version__ = "SS6"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -107,7 +107,7 @@ def main():
         try:
             helper = 0
             while True:
-                if wocomplete(helper) is True:
+                if wocomplete(helper):
                     raise KeyboardInterrupt
 
                 status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'),
@@ -284,8 +284,8 @@ def checknprintwithadjective(name):
 
 def wocomplete(helper):
     if helper % 5 == 0:
-        red_close_wo = pyautogui.locateOnScreen(resource_path('img\\closeWO.png'), confidence=0.8,
-                                                grayscale=True)
+        red_close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'),
+                                                      confidence=0.8, grayscale=True)
         if red_close_wo is not None:
             return True
     return False
