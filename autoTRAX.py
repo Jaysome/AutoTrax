@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.5.3"
+__version__ = "1.5.4"
 
 import pyautogui
 import pywinauto.keyboard as kb
