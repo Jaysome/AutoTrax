@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "SS6"
+__version__ = "SS7"
 
 import pyautogui
 import pywinauto.keyboard as kb
@@ -107,6 +107,8 @@ def main():
         try:
             helper = 0
             while True:
+                print('Looking for a trax task card...' + '(' + str(helper) + ')', end='\r')
+
                 if wocomplete(helper):
                     raise KeyboardInterrupt
 
@@ -134,7 +136,6 @@ def main():
                     raise KeyboardInterrupt
                     #   #   #
                 helper += 1
-                print('Looking for a trax task card...' + '(' + str(helper) + ')', end='\r')
 
             x = status_loc[0]
             y = status_loc[1]
@@ -285,7 +286,7 @@ def checknprintwithadjective(name):
 def wocomplete(helper):
     if helper % 5 == 0:
         red_close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'),
-                                                      confidence=0.8, grayscale=True)
+                                                      grayscale=True)
         if red_close_wo is not None:
             return True
     return False
