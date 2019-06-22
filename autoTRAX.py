@@ -48,7 +48,7 @@ def main():
             pass
 
         except KeyboardInterrupt:
-            print('\nautoTRAX paused by CTRL-C')
+            print('\nautoTRAX paused')
             pauseandrestart()
             pass
 
