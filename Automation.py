@@ -5,7 +5,7 @@ import time
 import pyautogui
 import pywinauto.keyboard as kb
 
-import Inputs
+import Trax
 
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
@@ -31,6 +31,41 @@ def lookfortaskcard():
     return status_loc
 
 
+def fullauto():
+    helper = 0
+    while True:
+        print('Looking for a trax task card...' + '<' + str(helper) + '>', end='\r')
+
+        if wocomplete(helper):
+            raise KeyboardInterrupt
+
+        status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'),
+                                                    confidence=0.9, grayscale=True)
+        if status_loc is not None:
+            break
+        status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'),
+                                                    confidence=0.9, grayscale=True)
+        if status_loc is not None:
+            break
+        status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'),
+                                                    confidence=0.9, grayscale=True)
+        if status_loc is not None:
+            break
+        # super auto mode #
+        pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'),
+                                                     confidence=0.8, grayscale=True)
+        if pointer_loc is not None:
+            pyautogui.doubleClick(pointer_loc)
+            time.sleep(0.5)
+            continue
+
+        if helper >= 25:
+            raise KeyboardInterrupt
+            #   #   #
+        helper += 1
+    return status_loc
+
+
 def filltaskcard(x, y):
     status_loc = (x, y)
     save_loc = (x - 141, y - 82)
@@ -44,31 +79,31 @@ def filltaskcard(x, y):
     work_tab_loc = (x + 347, y + 437)
     log_page_loc = (x + 400, y - 56)
     # work_loc = (x + 0, y + 220)
-    inputs = Inputs.askforinputs()
+    trax = Trax.askforinputs()
 
     pyautogui.click(status_loc)
     pyautogui.typewrite('c')
 
     pyautogui.click(by_loc)
     eraserhotkey()
-    pyautogui.typewrite(inputs.name)
+    pyautogui.typewrite(trax.name)
 
-    clickntype(date_loc, inputs.date)
-    clickntype(hr_loc, inputs.hr)
-    clickntype(mn_loc, inputs.mn)
+    clickntype(date_loc, trax.date)
+    clickntype(hr_loc, trax.hr)
+    clickntype(mn_loc, trax.mn)
 
     pyautogui.click(station_loc)
     eraserhotkey()
-    pyautogui.typewrite(inputs.station)
+    pyautogui.typewrite(trax.station)
 
-    clickntype(resolution_loc, inputs.resolution)
+    clickntype(resolution_loc, trax.resolution)
 
     pyautogui.doubleClick(workclick_loc)
     time.sleep(0.5)
 
     pyautogui.doubleClick(work_tab_loc)
     time.sleep(0.5)
-    clickntype(log_page_loc, inputs.logpage)
+    clickntype(log_page_loc, trax.logpage)
 
     savetaskcard(save_loc)
     print('\nautoTRAX COMPLETE')
@@ -111,3 +146,12 @@ def savetaskcard(savecoords):
     pyautogui.click(greenthumb)
     time.sleep(1)
     pyautogui.click(greenthumb)
+
+
+def wocomplete(helper):
+    if helper % 5 == 0:
+        red_close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'),
+                                                      grayscale=True)
+        if red_close_wo is not None:
+            return True
+    return False

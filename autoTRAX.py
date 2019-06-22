@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.5.6 Beta"
+__version__ = "2.0 Alpha"
 
 import pyautogui
 import time
@@ -11,7 +11,7 @@ import ctypes
 # noinspection PyUnresolvedReferences
 import cv2
 
-import Inputs
+import Trax
 import Automation
 
 pyautogui.FAILSAFE = True
@@ -19,15 +19,20 @@ pyautogui.PAUSE = 0.2
 
 
 def main():
+    fullauto = False
     while True:
         try:
-            Inputs.askforinputs()
-            trax_inputs = Inputs.askforinputs().trax_dict
+            trax = Trax.askforinputs()
+            trax_inputs = trax.trax_dict
             printinputconfirm(trax_inputs, 10, 11)
             print('Confirm entered values are correct? (Y/N)')
             confirm = input().strip().upper()
             if confirm == 'Y':
                 print('\nGood Job!')
+                break
+            elif confirm == 'FULL' and trax.name == 'JMORIN':
+                fullauto = True
+                print('\nOne True God Protocol Engaged')
                 break
 
         except KeyboardInterrupt:
@@ -38,7 +43,10 @@ def main():
 
     while True:
         try:
-            coords = Automation.lookfortaskcard()
+            if fullauto:
+                coords = Automation.fullauto()
+            else:
+                coords = Automation.lookfortaskcard()
 
             Automation.filltaskcard(coords[0], coords[1])
 
@@ -78,6 +86,6 @@ def printinputconfirm(items_dict, left_width, right_width):
 
 
 ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX " + __version__)
-print('Welcome to autoTRAX ' + __version__ + ', Enjoy!')
+print('Welcome to SUPERautoTRAX ' + __version__ + ', Enjoy!')
 print('To get the latest version of autoTRAX go to bit.ly/skyautotrax')
 main()
