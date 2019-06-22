@@ -79,31 +79,30 @@ def filltaskcard(x, y):
     work_tab_loc = (x + 347, y + 437)
     log_page_loc = (x + 400, y - 56)
     # work_loc = (x + 0, y + 220)
-    trax = Trax.askforinputs()
 
     pyautogui.click(status_loc)
     pyautogui.typewrite('c')
 
     pyautogui.click(by_loc)
     eraserhotkey()
-    pyautogui.typewrite(trax.name)
+    pyautogui.typewrite(Trax.name)
 
-    clickntype(date_loc, trax.date)
-    clickntype(hr_loc, trax.hr)
-    clickntype(mn_loc, trax.mn)
+    clickntype(date_loc, Trax.date)
+    clickntype(hr_loc, Trax.hr)
+    clickntype(mn_loc, Trax.mn)
 
     pyautogui.click(station_loc)
     eraserhotkey()
-    pyautogui.typewrite(trax.station)
+    pyautogui.typewrite(Trax.station)
 
-    clickntype(resolution_loc, trax.resolution)
+    clickntype(resolution_loc, Trax.resolution)
 
     pyautogui.doubleClick(workclick_loc)
     time.sleep(0.5)
 
     pyautogui.doubleClick(work_tab_loc)
     time.sleep(0.5)
-    clickntype(log_page_loc, trax.logpage)
+    clickntype(log_page_loc, Trax.logpage)
 
     savetaskcard(save_loc)
     print('\nautoTRAX COMPLETE')

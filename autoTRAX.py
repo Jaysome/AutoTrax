@@ -22,15 +22,15 @@ def main():
     fullauto = False
     while True:
         try:
-            trax = Trax.askforinputs()
-            trax_inputs = trax.trax_dict
+            Trax.askforinputs()
+            trax_inputs = Trax.trax_dict
             printinputconfirm(trax_inputs, 10, 11)
             print('Confirm entered values are correct? (Y/N)')
             confirm = input().strip().upper()
             if confirm == 'Y':
                 print('\nGood Job!')
                 break
-            elif confirm == 'FULL' and trax.name == 'JMORIN':
+            elif confirm == 'FULL' and Trax.name == 'JMORIN':
                 fullauto = True
                 print('\nOne True God Protocol Engaged')
                 break

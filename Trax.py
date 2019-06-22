@@ -7,6 +7,15 @@ import pyautogui
 
 import Teams
 
+name = str
+date = str
+hr = int
+mn = int
+station = str
+resolution = str
+logpage = str
+trax_dict = dict
+
 
 def askforinputs():
     global name, date, hr, mn, station, resolution, logpage, trax_dict
