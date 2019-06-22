@@ -9,7 +9,7 @@ import Teams
 
 
 def askforinputs():
-    global name, date, hr, mn, station, resolution, logpage
+    global name, date, hr, mn, station, resolution, logpage, trax_dict
 
     while True:
         print('\nMECHANIC: ', end='')
@@ -73,8 +73,8 @@ def askforinputs():
                 break
         print('INVALID logpage format')
 
-    return {'MECHANIC': name, 'DATE': full_date, 'HR:MN': hr + ':' + mn,
-            'RESOLUTION': resolution, 'STATION': station, 'LOGPAGE': logpage}
+    trax_dict = {'MECHANIC': name, 'DATE': full_date, 'HR:MN': hr + ':' + mn,
+                 'RESOLUTION': resolution, 'STATION': station, 'LOGPAGE': logpage}
 
 
 def fulldate(d):

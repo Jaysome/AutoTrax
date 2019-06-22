@@ -21,7 +21,8 @@ pyautogui.PAUSE = 0.2
 def main():
     while True:
         try:
-            trax_inputs = Inputs.askforinputs()
+            Inputs.askforinputs()
+            trax_inputs = Inputs.askforinputs().trax_dict
             printinputconfirm(trax_inputs, 10, 11)
             print('Confirm entered values are correct? (Y/N)')
             confirm = input().strip().upper()
