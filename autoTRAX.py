@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.5.5"
+__version__ = "1.5.6 Beta"
 
 import pyautogui
 import time
@@ -12,7 +12,7 @@ import ctypes
 import cv2
 
 import Inputs
-import Automate
+import Automation
 
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
@@ -38,9 +38,9 @@ def main():
 
     while True:
         try:
-            coords = Automate.lookfortaskcard()
+            coords = Automation.lookfortaskcard()
 
-            Automate.filltaskcard(coords)
+            Automation.filltaskcard(coords[0], coords[1])
 
         except pyautogui.FailSafeException:
             print('\nautoTRAX paused by failsafe')
