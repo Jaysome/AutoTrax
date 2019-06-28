@@ -27,7 +27,7 @@ def askforinputs():
             break
         print('INVALID! Name must be exactly like in trax otherwise it fucks everything')
 
-    checknprintwithadjective(name)
+    validate(name)
 
     while True:
         print('CLOSED ON (MM/DD/YYYY): ', end='')
@@ -97,32 +97,49 @@ def fulldate(d):
     return str(day) + ' ' + months_dict.get(month) + ' ' + str(year)
 
 
-def checknprintwithadjective(user):
-    team_one_adjectives = random.choice(
-        ['a bold', 'a brilliant', 'a celebrated', 'a charismatic', 'a chivalrous', 'a commendable',
-         'a competent', 'a distinguished', 'a dynamic', 'a fabulous', 'a fearless', 'a foremost',
-         'a gallant', 'a glorious', 'a great', 'a legendary', 'a mighty', 'a model', 'a noble',
-         'a phenomenal', 'a powerful', 'a prodigious', 'a quality', 'a remarkable', 'a renowned',
-         'a revered', 'a sexy', 'a solid', 'a splendid', 'a stalwart', 'a stupendous', 'a sublime',
-         'a superior', 'a valiant', 'a valorous', 'a valuable', 'a venerated', 'a wonderful',
-         'a worthy', 'an admirable', 'an amazing', 'an eminent', 'an energetic', 'an esteemed',
-         'an exalted', 'an excellent', 'an exceptional', 'an exemplary', 'an extraordinary',
-         'an heroic', 'an honorable', 'an honored', 'an illustrious', 'an important',
-         'an impressive', 'an influential', 'an intense', 'an intrepid', 'an invaluable',
-         'an outstanding'])
-    team_snake_adjectives = random.choice(
-        ['a', 'a good enough', 'a passable', 'a permitted', 'a satisfactory', 'a sufficient',
-         'a suitable', 'a valid', 'a worthy', 'an acceptable', 'an accepted', 'an adequate',
-         'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
-         'an authorized', 'a fair enough', 'a capable'])
-
+def validate(user):
     if user in Teams.team_one:
-        print('You are ' + team_one_adjectives + ' member of Team One.')
+        print('You are ' + adjectivate(100) + ' member of Team One.')
     elif user in Teams.team_snake:
-        print('You are ' + team_snake_adjectives + ' member of Team Snake.')
+        print('You are ' + adjectivate(20) + ' member of Team Snake.')
     elif user in Teams.team_calvin:
         print('You are an approved user.')
     else:
         print('You are not an approved user! Please contact your system administrator.')
         time.sleep(2)
         sys.exit()
+
+
+def adjectivate(luck):
+    good_adjectives = random.choice(
+        ['a bold', 'a breathtaking', 'a brilliant', 'a celebrated', 'a charismatic', 'a cherished',
+         'a chivalrous', 'a commendable', 'a competent', 'a dignified', 'a distinguished',
+         'a dynamic', 'a fabulous', 'a fearless', 'a foremost', 'a gallant', 'a glorious',
+         'a grandiose', 'a great', 'a legendary', 'a magnificient', 'a majestic', 'a marvelous',
+         'a mighty', 'a model', 'a noble', 'a perfect', 'a phenomenal', 'a powerful', 'a precious',
+         'a prized', 'a prodigious', 'a proud', 'a quality', 'a remarkable', 'a renowned',
+         'a resplendent', 'a revered', 'a sexy', 'a solid', 'a splendid', 'a stalwart',
+         'a striking', 'a stunning', 'a stupendous', 'a sublime', 'a super', 'a superb',
+         'a superior', 'a treasured', 'a valiant', 'a valorous', 'a valuable', 'a venerated',
+         'a wonderful', 'a worthy', 'an admirable', 'an amazing', 'an august', 'an elegant',
+         'an eminent', 'an energetic', 'an esteemed', 'an exalted', 'an excellent',
+         'an exceptional', 'an exemplary', 'an exquisite', 'an extraordinary', 'an heroic',
+         'an honorable', 'an honored', 'an illustrious', 'an impeccable', 'an important',
+         'an impressive', 'an inestimable', 'an influential', 'an intense', 'an intrepid',
+         'an invaluable', 'an outstanding'])
+    medium_adjectives = random.choice(
+        ['a', 'a', 'a', 'a capable', 'a common', 'a confirmed', 'a conventional', 'a decent',
+         'a fair', 'a fair enough', 'a good enough', 'a humble', 'a known', 'a legitimate',
+         'a moderate', 'a normal', 'a not bad', 'a not too bad', 'a passable', 'a permitted',
+         'a presentable', 'a proper', 'a recognized', 'a regular', 'a sanctioned', 'a satisfactory',
+         'a standard', 'a sufficient', 'a suitable', 'a suitable', 'a typical', 'a valid',
+         'a validated', 'an acceptable', 'an accepted', 'an acknowledged', 'an adequate',
+         'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
+         'an authorized', 'an average', 'an identified'])
+
+    roll = random.randint(0, 100)
+
+    if roll <= luck:
+        return good_adjectives
+    else:
+        return medium_adjectives

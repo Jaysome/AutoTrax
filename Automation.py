@@ -36,9 +36,6 @@ def fullauto():
     while True:
         print('Looking for a trax task card...' + '<' + str(helper) + '>', end='\r')
 
-        if wocomplete(helper):
-            raise KeyboardInterrupt
-
         status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'),
                                                     confidence=0.9, grayscale=True)
         if status_loc is not None:
@@ -51,6 +48,7 @@ def fullauto():
                                                     confidence=0.9, grayscale=True)
         if status_loc is not None:
             break
+
         # super auto mode #
         pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'),
                                                      confidence=0.8, grayscale=True)
@@ -59,7 +57,7 @@ def fullauto():
             time.sleep(0.5)
             continue
 
-        if helper >= 25:
+        if helper >= 5:
             raise KeyboardInterrupt
             #   #   #
         helper += 1
@@ -105,7 +103,13 @@ def filltaskcard(x, y):
     clickntype(log_page_loc, Trax.logpage)
 
     savetaskcard(save_loc)
-    print('\nautoTRAX COMPLETE')
+
+    red_close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'))
+    if red_close_wo is not None:
+        print('\nautoTRAX is done')
+        raise KeyboardInterrupt
+
+    print('\nTaskcard Complete')
 
 
 # gets absolute path for dev and pyinstaller
@@ -138,19 +142,10 @@ def savetaskcard(savecoords):
     tick = 0
     while greenthumb is None:
         greenthumb = pyautogui.locateCenterOnScreen(resource_path('img\\greenThumb.png'),
-                                                    confidence=0.8, grayscale=True)
+                                                    confidence=0.9, grayscale=True)
         tick += 1
-        if tick > 5:
+        if tick >= 5:
             break
     pyautogui.click(greenthumb)
     time.sleep(1)
     pyautogui.click(greenthumb)
-
-
-def wocomplete(helper):
-    if helper % 5 == 0:
-        red_close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'),
-                                                      grayscale=True)
-        if red_close_wo is not None:
-            return True
-    return False

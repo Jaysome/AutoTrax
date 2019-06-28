@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "2.0 Alpha"
+__version__ = "2.0 Alpha-2"
 
 import pyautogui
 import time
@@ -70,7 +70,7 @@ def pauseandrestart():
     elif restart == 'NEW':
         main()
     elif restart == 'LOVE YOU':
-        print('\nLove you too!')
+        print('\nautoTRAX loves you too!')
         time.sleep(1)
         sys.exit()
     else:
@@ -80,6 +80,7 @@ def pauseandrestart():
 
 
 def printinputconfirm(items_dict, left_width, right_width):
+    print()
     print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
     for k, v in items_dict.items():
         print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
