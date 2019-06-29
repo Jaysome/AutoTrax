@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "2.0 Alpha-2"
+__version__ = "2.0 Alpha-3"
 
 import pyautogui
 import time

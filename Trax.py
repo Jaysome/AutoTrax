@@ -3,7 +3,7 @@ import random
 import sys
 import time
 
-import pyautogui
+import pywinauto.keyboard as kb
 
 import Teams
 
@@ -33,7 +33,7 @@ def askforinputs():
         print('CLOSED ON (MM/DD/YYYY): ', end='')
         now = datetime.datetime.utcnow()
         time.sleep(0.1)
-        pyautogui.typewrite(now.strftime("%m/%d/%Y"))
+        kb.SendKeys(now.strftime("%m/%d/%Y"), pause=0)
         date = input().strip()
         if len(date) == 10:
             full_date = fulldate(date)
@@ -58,7 +58,7 @@ def askforinputs():
     while True:
         print('STATION: ', end='')
         time.sleep(0.1)
-        pyautogui.typewrite('YUL')
+        kb.SendKeys('YUL', pause=0)
         station = input().strip().upper()
         if station.isalpha() and len(station) == 3:
             break
@@ -67,7 +67,7 @@ def askforinputs():
     while True:
         print('RESOLUTION: ', end='')
         time.sleep(0.1)
-        pyautogui.typewrite('INSP' + "/" + 'CHK')
+        kb.SendKeys('INSP/CHK', pause=0)
         resolution = input().strip().upper()
         if len(resolution) > 0:
             break
