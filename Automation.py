@@ -79,11 +79,11 @@ def filltaskcard(x, y):
     # work_loc = (x + 0, y + 220)
 
     pyautogui.click(status_loc)
-    kb.SendKeys('c')
+    justtype('c')
 
     pyautogui.click(by_loc)
     eraserhotkey()
-    kb.SendKeys(Trax.name)
+    justtype(Trax.name)
 
     clickntype(date_loc, Trax.date)
     clickntype(hr_loc, Trax.hr)
@@ -91,7 +91,7 @@ def filltaskcard(x, y):
 
     pyautogui.click(station_loc)
     eraserhotkey()
-    kb.SendKeys(Trax.station)
+    justtype(Trax.station)
 
     clickntype(resolution_loc, Trax.resolution)
 
@@ -103,10 +103,9 @@ def filltaskcard(x, y):
     clickntype(log_page_loc, Trax.logpage)
 
     savetaskcard(save_loc)
-    time.sleep(0.5)
 
-    red_close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'), confidence=0.9,
-                                                  grayscale=True)
+    time.sleep(2)
+    red_close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'), confidence=0.9)
     if red_close_wo is not None:
         print('\nautoTRAX is done')
         raise KeyboardInterrupt
@@ -125,9 +124,13 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
+def justtype(text):
+    kb.SendKeys(text, pause=0)
+
+
 def clickntype(clicklocation, text):
     pyautogui.click(clicklocation)
-    kb.SendKeys(text)
+    kb.SendKeys(text, pause=0)
 
 
 def eraser():

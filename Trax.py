@@ -101,7 +101,7 @@ def validate(user):
     if user in Teams.team_one:
         print('You are ' + adjectivate(100) + ' member of Team One.')
     elif user in Teams.team_snake:
-        print('You are ' + adjectivate(20) + ' member of Team Snake.')
+        print('You are ' + adjectivate(33) + ' member of Team Snake.')
     elif user in Teams.team_calvin:
         print('You are an approved user.')
     else:
