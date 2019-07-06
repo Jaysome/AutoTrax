@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "2.0 Alpha-4"
+__version__ = "2.0 Alpha-5"
 
 import pyautogui
 import time
@@ -33,6 +33,7 @@ def main():
             elif confirm == 'FULL' and Trax.name == 'JMORIN':
                 fullauto = True
                 print('\nOne True God Protocol Engaged')
+                time.sleep(1)
                 break
 
         except KeyboardInterrupt:
@@ -51,12 +52,12 @@ def main():
             Automation.filltaskcard(coords[0], coords[1])
 
         except pyautogui.FailSafeException:
-            print('\nautoTRAX paused by failsafe')
+            print('autoTRAX paused by failsafe')
             pauseandrestart()
             pass
 
         except KeyboardInterrupt:
-            print('\nautoTRAX paused')
+            print('autoTRAX paused')
             pauseandrestart()
             pass
 
@@ -66,7 +67,7 @@ def pauseandrestart():
     print('NEW for a new aircraft')
     restart = input().strip().upper()
     if restart == 'Y':
-        print('\n\nRESTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt\n')
+        print('\nRESTARTING autoTRAX...\nCTRL-C or move mouse top left to interrupt\n')
     elif restart == 'NEW':
         main()
     elif restart == 'LOVE YOU':

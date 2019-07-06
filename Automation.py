@@ -103,8 +103,8 @@ def filltaskcard(x, y):
     clickntype(log_page_loc, Trax.logpage)
 
     savetaskcard(save_loc)
+    time.sleep(1)
 
-    time.sleep(2)
     red_close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'), confidence=0.9)
     if red_close_wo is not None:
         print('\nautoTRAX is done')

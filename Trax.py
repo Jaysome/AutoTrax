@@ -99,7 +99,7 @@ def fulldate(d):
 
 def validate(user):
     if user in Teams.team_one:
-        print('You are ' + adjectivate(100) + ' member of Team One.')
+        print('You are ' + adjectivate(95) + ' member of Team One.')
     elif user in Teams.team_snake:
         print('You are ' + adjectivate(33) + ' member of Team Snake.')
     elif user in Teams.team_calvin:
