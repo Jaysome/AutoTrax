@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import random
 import sys
 import time
@@ -31,7 +31,7 @@ def askforinputs():
 
     while True:
         print('CLOSED ON (MM/DD/YYYY): ', end='')
-        now = datetime.datetime.utcnow()
+        now = datetime.utcnow()
         time.sleep(0.1)
         kb.SendKeys(now.strftime("%m/%d/%Y"), pause=0)
         date = input().strip()
@@ -40,6 +40,7 @@ def askforinputs():
             if month <= 12:
                 break
         print('INVALID! Date must be in format MM/DD/YYYY')
+        print('DEBUG ONLY utc time = ' + str(now))  # TODO remove debug
 
     while True:
         print('ZULU TIME(HR:MN): ', end='')
