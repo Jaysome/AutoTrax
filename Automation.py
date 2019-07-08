@@ -50,6 +50,11 @@ def fullauto():
             break
 
         # super auto mode #
+        close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'), confidence=0.9)
+        if close_wo is not None:
+            print('\nautoTRAX is done')
+            raise KeyboardInterrupt
+
         pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'),
                                                      confidence=0.8, grayscale=True)
         if pointer_loc is not None:
@@ -103,14 +108,8 @@ def filltaskcard(x, y):
     clickntype(log_page_loc, Trax.logpage)
 
     savetaskcard(save_loc)
-    time.sleep(1)
 
-    red_close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'), confidence=0.9)
-    if red_close_wo is not None:
-        print('\nautoTRAX is done')
-        raise KeyboardInterrupt
-
-    print('\nTaskcard Complete')
+    print('\nTaskcard complete')
 
 
 # gets absolute path for dev and pyinstaller
@@ -143,14 +142,8 @@ def eraserhotkey():
 
 def savetaskcard(savecoords):
     pyautogui.click(savecoords)
-    greenthumb = None
-    tick = 0
-    while greenthumb is None:
-        greenthumb = pyautogui.locateCenterOnScreen(resource_path('img\\greenThumb.png'),
-                                                    confidence=0.9, grayscale=True)
-        tick += 1
-        if tick >= 5:
-            break
+    greenthumb = pyautogui.locateCenterOnScreen(resource_path('img\\greenThumb.png'),
+                                                minSearchTime=2, confidence=0.9, grayscale=True)
     pyautogui.click(greenthumb)
     time.sleep(1)
     pyautogui.click(greenthumb)
