@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "2.0 Alpha-5"
+__version__ = "2.0 Alpha-6"
 
 import pyautogui
 import time
@@ -88,6 +88,12 @@ def printinputconfirm(items_dict, left_width, right_width):
 
 
 ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX " + __version__)
-print('Welcome to SUPERautoTRAX ' + __version__ + ', Enjoy!')
+print("""
+  █████╗ ██╗   ██╗████████╗ ██████╗ ████████╗██████╗  █████╗ ██╗  ██╗
+ ██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗╚══██╔══╝██╔══██╗██╔══██╗╚██╗██╔╝
+ ███████║██║   ██║   ██║   ██║   ██║   ██║   ██████╔╝███████║ ╚███╔╝ 
+ ██╔══██║██║   ██║   ██║   ██║   ██║   ██║   ██╔══██╗██╔══██║ ██╔██╗ 
+ ██║  ██║╚██████╔╝   ██║   ╚██████╔╝   ██║   ██║  ██║██║  ██║██╔╝ ██╗
+ ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝""")
 print('To get the latest version of autoTRAX go to bit.ly/skyautotrax')
 main()
