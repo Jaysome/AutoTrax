@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "2.0 Alpha-6"
+__version__ = "1.6"
 
 import pyautogui
 import time
@@ -19,7 +19,6 @@ pyautogui.PAUSE = 0.2
 
 
 def main():
-    fullauto = False
     while True:
         try:
             Trax.askforinputs()
@@ -30,11 +29,6 @@ def main():
             if confirm == 'Y':
                 print('\nGood Job!')
                 break
-            elif confirm == 'FULL' and Trax.name == 'JMORIN':
-                fullauto = True
-                print('\nOne True God Protocol Engaged')
-                time.sleep(1)
-                break
 
         except KeyboardInterrupt:
             main()
@@ -44,11 +38,7 @@ def main():
 
     while True:
         try:
-            if fullauto:
-                coords = Automation.fullauto()
-            else:
-                coords = Automation.lookfortaskcard()
-
+            coords = Automation.lookfortaskcard()
             Automation.filltaskcard(coords[0], coords[1])
 
         except pyautogui.FailSafeException:
@@ -57,7 +47,7 @@ def main():
             pass
 
         except KeyboardInterrupt:
-            print('autoTRAX paused')
+            print('\nautoTRAX paused')
             pauseandrestart()
             pass
 

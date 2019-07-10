@@ -31,44 +31,6 @@ def lookfortaskcard():
     return status_loc
 
 
-def fullauto():
-    helper = 0
-    while True:
-        print('Looking for a trax task card...' + '<' + str(helper) + '>', end='\r')
-
-        status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'),
-                                                    confidence=0.9, grayscale=True)
-        if status_loc is not None:
-            break
-        status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusBlue.png'),
-                                                    confidence=0.9, grayscale=True)
-        if status_loc is not None:
-            break
-        status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\statusWhite.png'),
-                                                    confidence=0.9, grayscale=True)
-        if status_loc is not None:
-            break
-
-        # super auto mode #
-        close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'), confidence=0.9)
-        if close_wo is not None:
-            print('\nautoTRAX is done')
-            raise KeyboardInterrupt
-
-        pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'),
-                                                     confidence=0.8, grayscale=True)
-        if pointer_loc is not None:
-            pyautogui.doubleClick(pointer_loc)
-            time.sleep(0.5)
-            continue
-
-        if helper >= 5:
-            raise KeyboardInterrupt
-            #   #   #
-        helper += 1
-    return status_loc
-
-
 def filltaskcard(x, y):
     status_loc = (x, y)
     save_loc = (x - 141, y - 82)
