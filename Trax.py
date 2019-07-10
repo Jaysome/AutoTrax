@@ -40,7 +40,6 @@ def askforinputs():
             if month <= 12:
                 break
         print('INVALID! Date must be in format MM/DD/YYYY')
-        print('DEBUG ONLY utc time = ' + str(now))  # TODO remove debug
 
     while True:
         print('ZULU TIME(HR:MN): ', end='')
