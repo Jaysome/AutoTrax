@@ -126,16 +126,19 @@ def adjectivate(luck):
          'an exceptional', 'an exemplary', 'an exquisite', 'an extraordinary', 'an heroic',
          'an honorable', 'an honored', 'an illustrious', 'an impeccable', 'an important',
          'an impressive', 'an inestimable', 'an influential', 'an intense', 'an intrepid',
-         'an invaluable', 'an outstanding'])
+         'an invaluable', 'an outstanding', 'a spectacular', 'an astonishing', 'a dazzling',
+         'a bright', 'a ravishing', 'a captivating', 'an attractive', 'a charming', 'a delightful',
+         'an irresistible', 'a graceful', 'an ineffable', 'a unique', 'a peerless',
+         'an unparallelled', 'a champion'])
     medium_adjectives = random.choice(
         ['a', 'a', 'a', 'a capable', 'a common', 'a confirmed', 'a conventional', 'a decent',
          'a fair', 'a fair enough', 'a good enough', 'a humble', 'a known', 'a legitimate',
          'a moderate', 'a normal', 'a not bad', 'a not too bad', 'a passable', 'a permitted',
          'a presentable', 'a proper', 'a recognized', 'a regular', 'a sanctioned', 'a satisfactory',
-         'a standard', 'a sufficient', 'a suitable', 'a suitable', 'a typical', 'a valid',
+         'a standard', 'a sufficient', 'a suitable', 'a typical', 'a valid',
          'a validated', 'an acceptable', 'an accepted', 'an acknowledged', 'an adequate',
          'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
-         'an authorized', 'an average', 'an identified'])
+         'an authorized', 'an average', 'an identified', 'a classic'])
 
     roll = random.randint(0, 100)
 
