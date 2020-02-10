@@ -3,7 +3,8 @@ import sys
 import time
 
 import pyautogui
-import pywinauto.keyboard as kb
+# fucked for a while as per https://github.com/pywinauto/pywinauto/issues/868
+# import pywinauto.keyboard as kb
 
 import Trax
 
@@ -11,7 +12,7 @@ pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
 
 
-def lookfortaskcard():
+def lookfortaskcard(isfullauto):
     helper = 0
     while True:
         status_loc = pyautogui.locateCenterOnScreen(resource_path('img\\status.png'),
@@ -26,8 +27,28 @@ def lookfortaskcard():
                                                     grayscale=True)
         if status_loc is not None:
             break
+
+        if isfullauto:
+            close_wo = pyautogui.locateCenterOnScreen(resource_path('img\\closeWO.png'), confidence=0.9)
+            if close_wo is not None:
+                print('\nautoTRAX is done')
+                raise KeyboardInterrupt
+
+            pointer_loc = pyautogui.locateCenterOnScreen(resource_path('img\\pointer.png'),
+                                                         confidence=0.8, grayscale=True)
+            if pointer_loc is not None:
+                pyautogui.doubleClick(pointer_loc)
+                time.sleep(0.5)
+                continue
+
+            if helper >= 5:
+                raise KeyboardInterrupt
+                #   #   #
+            print('Looking for a trax task card...' + '<' + str(helper) + '>', end='\r')
+
+        else:
+            print('Looking for an opened trax task card...' + '(' + str(helper) + ')', end='\r')
         helper += 1
-        print('Looking for an opened trax task card...' + '(' + str(helper) + ')', end='\r')
     return status_loc
 
 
@@ -81,6 +102,7 @@ def filltaskcard(x, y):
     workclick_loc = (x + 0, y + 315)
     work_tab_loc = (x + 347, y + 437)
     log_page_loc = (x + 400, y - 56)
+    optional_radiobtn_loc = (x + 7, y + 12)
     # work_loc = (x + 0, y + 220)
 
     pyautogui.click(status_loc)
@@ -107,7 +129,7 @@ def filltaskcard(x, y):
     time.sleep(0.5)
     clickntype(log_page_loc, Trax.logpage)
 
-    savetaskcard(save_loc)
+    savetaskcard(save_loc, optional_radiobtn_loc)
 
     print('\nTaskcard complete')
 
@@ -124,26 +146,36 @@ def resource_path(relative_path):
 
 
 def justtype(text):
-    kb.SendKeys(text, pause=0)
+    # kb.SendKeys(text, pause=0)
+    pyautogui.write(text)
 
 
 def clickntype(clicklocation, text):
     pyautogui.click(clicklocation)
-    kb.SendKeys(text, pause=0)
+    # kb.SendKeys(text, pause=0)
+    pyautogui.write(text)
 
 
-def eraser():
-    kb.SendKeys("{VK_DELETE 10}")
+# def eraser():
+#    kb.SendKeys("{VK_DELETE 10}")
 
 
 def eraserhotkey():
-    kb.SendKeys('^+{RIGHT}')
+    # kb.SendKeys('^+{RIGHT}')
+    pyautogui.hotkey('ctrl', 'right')
 
 
-def savetaskcard(savecoords):
-    pyautogui.click(savecoords)
-    greenthumb = pyautogui.locateCenterOnScreen(resource_path('img\\greenThumb.png'),
-                                                minSearchTime=2, confidence=0.9, grayscale=True)
-    pyautogui.click(greenthumb)
-    time.sleep(1)
-    pyautogui.click(greenthumb)
+def savetaskcard(savecoords, optionalcoords):
+    i = 0
+    while i < 5:
+        pyautogui.click(savecoords)
+        greenthumb = pyautogui.locateCenterOnScreen(resource_path('img\\greenThumb.png'),
+                                                    minSearchTime=2, confidence=0.9, grayscale=True)
+        if greenthumb is None:
+            pyautogui.click(optionalcoords)
+            time.sleep(0.5)
+        else:
+            pyautogui.click(greenthumb)
+            time.sleep(1)
+            pyautogui.click(greenthumb)
+            break

@@ -3,7 +3,9 @@ import random
 import sys
 import time
 
-import pywinauto.keyboard as kb
+# fucked for a while as per https://github.com/pywinauto/pywinauto/issues/868
+# import pywinauto.keyboard as kb
+import pyautogui
 
 import Teams
 
@@ -27,13 +29,14 @@ def askforinputs():
             break
         print('INVALID! Name must be exactly like in trax otherwise it fucks everything')
 
-    validate(name)
+    Teams.validate(name)
 
     while True:
         print('CLOSED ON (MM/DD/YYYY): ', end='')
         now = datetime.utcnow()
         time.sleep(0.1)
-        kb.SendKeys(now.strftime("%m/%d/%Y"), pause=0)
+        # kb.SendKeys(now.strftime("%m/%d/%Y"), pause=0)
+        pyautogui.write(now.strftime("%m/%d/%Y"))
         date = input().strip()
         if len(date) == 10:
             full_date = fulldate(date)
@@ -58,7 +61,8 @@ def askforinputs():
     while True:
         print('STATION: ', end='')
         time.sleep(0.1)
-        kb.SendKeys('YUL', pause=0)
+        # kb.SendKeys('YUL', pause=0)
+        pyautogui.write('YUL')
         station = input().strip().upper()
         if station.isalpha() and len(station) == 3:
             break
@@ -67,7 +71,8 @@ def askforinputs():
     while True:
         print('RESOLUTION: ', end='')
         time.sleep(0.1)
-        kb.SendKeys('INSP/CHK', pause=0)
+        # kb.SendKeys('INSP/CHK', pause=0)
+        pyautogui.write('INSP/CHK')
         resolution = input().strip().upper()
         if len(resolution) > 0:
             break
@@ -95,54 +100,3 @@ def fulldate(d):
     year = int(d[6] + d[7] + d[8] + d[9])
 
     return str(day) + ' ' + months_dict.get(month) + ' ' + str(year)
-
-
-def validate(user):
-    if user in Teams.team_one:
-        print('You are ' + adjectivate(95) + ' member of Team One.')
-    elif user in Teams.team_snake:
-        print('You are ' + adjectivate(33) + ' member of Team Snake.')
-    elif user in Teams.team_calvin:
-        print('You are an approved user.')
-    else:
-        print('You are not an approved user! Please contact your system administrator.')
-        time.sleep(2)
-        sys.exit()
-
-
-def adjectivate(luck):
-    good_adjectives = random.choice(
-        ['a bold', 'a breathtaking', 'a brilliant', 'a celebrated', 'a charismatic', 'a cherished',
-         'a chivalrous', 'a commendable', 'a competent', 'a dignified', 'a distinguished',
-         'a dynamic', 'a fabulous', 'a fearless', 'a foremost', 'a gallant', 'a glorious',
-         'a grandiose', 'a great', 'a legendary', 'a magnificient', 'a majestic', 'a marvelous',
-         'a mighty', 'a model', 'a noble', 'a perfect', 'a phenomenal', 'a powerful', 'a precious',
-         'a prized', 'a prodigious', 'a proud', 'a quality', 'a remarkable', 'a renowned',
-         'a resplendent', 'a revered', 'a sexy', 'a solid', 'a splendid', 'a stalwart',
-         'a striking', 'a stunning', 'a stupendous', 'a sublime', 'a super', 'a superb',
-         'a superior', 'a treasured', 'a valiant', 'a valorous', 'a valuable', 'a venerated',
-         'a wonderful', 'a worthy', 'an admirable', 'an amazing', 'an august', 'an elegant',
-         'an eminent', 'an energetic', 'an esteemed', 'an exalted', 'an excellent',
-         'an exceptional', 'an exemplary', 'an exquisite', 'an extraordinary', 'an heroic',
-         'an honorable', 'an honored', 'an illustrious', 'an impeccable', 'an important',
-         'an impressive', 'an inestimable', 'an influential', 'an intense', 'an intrepid',
-         'an invaluable', 'an outstanding', 'a spectacular', 'an astonishing', 'a dazzling',
-         'a bright', 'a ravishing', 'a captivating', 'an attractive', 'a charming', 'a delightful',
-         'an irresistible', 'a graceful', 'an ineffable', 'a unique', 'a peerless',
-         'an unparallelled', 'a champion'])
-    medium_adjectives = random.choice(
-        ['a', 'a', 'a', 'a capable', 'a common', 'a confirmed', 'a conventional', 'a decent',
-         'a fair', 'a fair enough', 'a good enough', 'a humble', 'a known', 'a legitimate',
-         'a moderate', 'a normal', 'a not bad', 'a not too bad', 'a passable', 'a permitted',
-         'a presentable', 'a proper', 'a recognized', 'a regular', 'a sanctioned', 'a satisfactory',
-         'a standard', 'a sufficient', 'a suitable', 'a typical', 'a valid',
-         'a validated', 'an acceptable', 'an accepted', 'an acknowledged', 'an adequate',
-         'an admissible', 'an all right', 'an allowable', 'an allowed', 'an approved',
-         'an authorized', 'an average', 'an identified', 'a classic'])
-
-    roll = random.randint(0, 100)
-
-    if roll <= luck:
-        return good_adjectives
-    else:
-        return medium_adjectives

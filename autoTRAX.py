@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "2.0 Alpha-6"
+__version__ = "1.7 Test 1"
 
 import pyautogui
 import time
@@ -18,6 +18,14 @@ pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
 
 
+# todo buy domain
+# todo add web scraping for a csv file with teams file
+# todo add if no online access use previously saved csv
+
+# what was done: fullauto mode combined with regular mode, modified savetaskcard() to include optional,
+# removed usage of pywinauto temporarily, implemented teams with local csv
+
+
 def main():
     fullauto = False
     while True:
@@ -30,9 +38,9 @@ def main():
             if confirm == 'Y':
                 print('\nGood Job!')
                 break
-            elif confirm == 'FULL' and Trax.name == 'JMORIN':
+            elif confirm == 'FULL':
                 fullauto = True
-                print('\nOne True God Protocol Engaged')
+                print('\nSuper Secret mode activated!')
                 time.sleep(1)
                 break
 
@@ -44,20 +52,17 @@ def main():
 
     while True:
         try:
-            if fullauto:
-                coords = Automation.fullauto()
-            else:
-                coords = Automation.lookfortaskcard()
+            coords = Automation.lookfortaskcard(fullauto)
 
             Automation.filltaskcard(coords[0], coords[1])
 
         except pyautogui.FailSafeException:
-            print('autoTRAX paused by failsafe')
+            print('\nautoTRAX paused by failsafe')
             pauseandrestart()
             pass
 
         except KeyboardInterrupt:
-            print('autoTRAX paused')
+            print('\nautoTRAX paused')
             pauseandrestart()
             pass
 
