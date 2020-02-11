@@ -41,7 +41,7 @@ def lookfortaskcard(isfullauto):
                 time.sleep(0.5)
                 continue
 
-            if helper >= 5:
+            if helper > 5:
                 raise KeyboardInterrupt
                 #   #   #
             print('Looking for a trax task card...' + '<' + str(helper) + '>', end='\r')

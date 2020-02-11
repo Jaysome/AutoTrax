@@ -3,16 +3,34 @@ import random
 import time
 import sys
 
-acaCsv = open('aca.csv')
-reader = csv.reader(acaCsv)
-teamsList = list(reader)
-onlyAca = []
+import Download
+
+try:
+    Download.fromdrive()
+except Exception:
+    print("Failed to update database")
+    pass
+
+try:
+    db = open('db.csv')
+    reader = csv.reader(db)
+    teamsList = list(reader)
+except FileNotFoundError:
+    print("No database file found")
+    teamsList = []
+
+if not teamsList:
+    print("Something went wrong: no users in database")
+    time.sleep(1)
+    sys.exit()
+
+acaOnly = []
 for singleList in teamsList:
-    onlyAca = onlyAca + singleList[2:]
+    acaOnly = acaOnly + singleList[2:]
 
 
 def validate(user):
-    if user in onlyAca:
+    if user in acaOnly:
         for team in teamsList:
             if user in team:
                 teamname = team[0]

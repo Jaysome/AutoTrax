@@ -1,7 +1,7 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.7 Test 1"
+__version__ = "1.7 Test 2"
 
 import pyautogui
 import time
@@ -16,14 +16,6 @@ import Automation
 
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
-
-
-# todo buy domain
-# todo add web scraping for a csv file with teams file
-# todo add if no online access use previously saved csv
-
-# what was done: fullauto mode combined with regular mode, modified savetaskcard() to include optional,
-# removed usage of pywinauto temporarily, implemented teams with local csv
 
 
 def main():
