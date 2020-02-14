@@ -1,21 +1,27 @@
 #! python3
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.7 Test 2"
+__version__ = "1.7 Test 3"
 
 import pyautogui
 import time
 import sys
 import ctypes
+import os
 # statement used for greenthumb confidence
 # noinspection PyUnresolvedReferences
 import cv2
 
 import Trax
 import Automation
+from Download import updatecheck
 
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.2
+
+c = {"RED": "\u001b[31m", "GREEN": "\u001b[32m", "YELLOW": "\u001b[33m", "BLUE": "\u001b[34m",
+     "MAGENTA": "\u001b[35m", "CYAN": "\u001b[36m", "WHITE": "\u001b[37m", "RESET": "\u001b[0m",
+     "BOLD": "\u001b[1m", "UNDERLINE": "\u001b[4m", "REVERSED": "\u001b[7m", "BLUEBACK": "\u001b[44m"}
 
 
 def main():
@@ -28,7 +34,8 @@ def main():
             print('Confirm entered values are correct? (Y/N)')
             confirm = input().strip().upper()
             if confirm == 'Y':
-                print('\nGood Job!')
+                print(c["YELLOW"] + c["BOLD"])
+                print(c["UNDERLINE"] + 'Good Job!' + c["RESET"])
                 break
             elif confirm == 'FULL':
                 fullauto = True
@@ -79,18 +86,19 @@ def pauseandrestart():
 
 def printinputconfirm(items_dict, left_width, right_width):
     print()
-    print('CONFIRM INPUTS'.center(left_width * 2 + right_width, '-'))
+    print(c["BLUEBACK"] + 'CONFIRM INPUTS'.center(left_width * 2 + right_width, '-') + c["RESET"])
     for k, v in items_dict.items():
-        print(k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width))
+        print(c["BLUEBACK"] + k.ljust(left_width) + '>'.center(left_width) + str(v).rjust(right_width) + c["RESET"])
 
 
 ctypes.windll.kernel32.SetConsoleTitleW("autoTRAX " + __version__)
-print("""
+os.system("cls")
+print(c["GREEN"] + c["BOLD"] + """
   █████╗ ██╗   ██╗████████╗ ██████╗ ████████╗██████╗  █████╗ ██╗  ██╗
  ██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗╚══██╔══╝██╔══██╗██╔══██╗╚██╗██╔╝
  ███████║██║   ██║   ██║   ██║   ██║   ██║   ██████╔╝███████║ ╚███╔╝ 
  ██╔══██║██║   ██║   ██║   ██║   ██║   ██║   ██╔══██╗██╔══██║ ██╔██╗ 
  ██║  ██║╚██████╔╝   ██║   ╚██████╔╝   ██║   ██║  ██║██║  ██║██╔╝ ██╗
- ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝""")
-print('To get the latest version of autoTRAX go to bit.ly/skyautotrax')
+ ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝""" + c["RESET"])
+updatecheck(__version__)
 main()

@@ -9,6 +9,10 @@ import pyautogui
 
 import Teams
 
+c = {"RED": "\u001b[31m", "GREEN": "\u001b[32m", "YELLOW": "\u001b[33m", "BLUE": "\u001b[34m",
+     "MAGENTA": "\u001b[35m", "CYAN": "\u001b[36m", "WHITE": "\u001b[37m", "RESET": "\u001b[0m",
+     "BOLD": "\u001b[1m", "UNDERLINE": "\u001b[4m", "REVERSED": "\u001b[7m", "BLUEBACK": "\u001b[44m"}
+
 name = str
 date = str
 hr = int
@@ -23,7 +27,7 @@ def askforinputs():
     global name, date, hr, mn, station, resolution, logpage, trax_dict
 
     while True:
-        print('\nMECHANIC: ', end='')
+        print(c["RED"] + '\nMECHANIC: ' + c["RESET"], end='')
         name = input().strip().upper()
         if name.isalpha() and len(name) <= 8:
             break
@@ -32,7 +36,7 @@ def askforinputs():
     Teams.validate(name)
 
     while True:
-        print('CLOSED ON (MM/DD/YYYY): ', end='')
+        print(c["RED"] + 'CLOSED ON (MM/DD/YYYY): ' + c["RESET"], end='')
         now = datetime.utcnow()
         time.sleep(0.1)
         # kb.SendKeys(now.strftime("%m/%d/%Y"), pause=0)
@@ -45,7 +49,7 @@ def askforinputs():
         print('INVALID! Date must be in format MM/DD/YYYY')
 
     while True:
-        print('ZULU TIME(HR:MN): ', end='')
+        print(c["RED"] + 'ZULU TIME(HR:MN): ' + c["RESET"], end='')
         zulu = input().strip()
         if len(zulu) == 4 or len(zulu) == 5:
             hr = zulu[0] + zulu[1]
@@ -59,7 +63,7 @@ def askforinputs():
         print('INVALID! Only HR:MN and HRMN format is accepted')
 
     while True:
-        print('STATION: ', end='')
+        print(c["RED"] + 'STATION: ' + c["RESET"], end='')
         time.sleep(0.1)
         # kb.SendKeys('YUL', pause=0)
         pyautogui.write('YUL')
@@ -69,7 +73,7 @@ def askforinputs():
         print('INVALID! Station must contain only 3 letters')
 
     while True:
-        print('RESOLUTION: ', end='')
+        print(c["RED"] + 'RESOLUTION: ' + c["RESET"], end='')
         time.sleep(0.1)
         # kb.SendKeys('INSP/CHK', pause=0)
         pyautogui.write('INSP/CHK')
@@ -79,7 +83,7 @@ def askforinputs():
         print('INVALID!')
 
     while True:
-        print('LOGPAGE: ', end='')
+        print(c["RED"] + 'LOGPAGE: ' + c["RESET"], end='')
         logpage = input().strip()
         if logpage:
             first = logpage[0]
