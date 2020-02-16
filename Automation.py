@@ -3,8 +3,7 @@ import sys
 import time
 
 import pyautogui
-# fucked for a while as per https://github.com/pywinauto/pywinauto/issues/868
-# import pywinauto.keyboard as kb
+import pywinauto.keyboard as kb
 
 import Trax
 
@@ -71,7 +70,7 @@ def filltaskcard(x, y):
     justtype('c')
 
     pyautogui.click(by_loc)
-    eraser()
+    eraserhotkey()
     justtype(Trax.name)
 
     clickntype(date_loc, Trax.date)
@@ -79,7 +78,7 @@ def filltaskcard(x, y):
     clickntype(mn_loc, Trax.mn)
 
     pyautogui.click(station_loc)
-    eraser()
+    eraserhotkey()
     justtype(Trax.station)
 
     clickntype(resolution_loc, Trax.resolution)
@@ -108,24 +107,20 @@ def resource_path(relative_path):
 
 
 def justtype(text):
-    # kb.SendKeys(text, pause=0)
-    pyautogui.write(text)
+    kb.send_keys(text, pause=0)
 
 
 def clickntype(clicklocation, text):
     pyautogui.click(clicklocation)
-    # kb.SendKeys(text, pause=0)
-    pyautogui.write(text)
+    kb.send_keys(text, pause=0)
 
 
 def eraser():
-    # kb.SendKeys("{VK_DELETE 10}")
-    pyautogui.press('del', presses=8)
+    kb.send_keys("{VK_DELETE 10}")
 
 
 def eraserhotkey():
-    # kb.SendKeys('^+{RIGHT}')
-    pyautogui.hotkey('ctrl', 'right')
+    kb.send_keys('^+{RIGHT}')
 
 
 def savetaskcard(savecoords, optionalcoords):

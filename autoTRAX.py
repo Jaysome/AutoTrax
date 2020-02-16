@@ -1,9 +1,8 @@
-#! python3
+#!usr/bin/python3.7.4
 
 # Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.7 Test 4"
+__version__ = "1.7 Test 5"
 
-import pyautogui
 import time
 import sys
 import ctypes
@@ -11,6 +10,7 @@ import os
 # statement used for greenthumb confidence
 # noinspection PyUnresolvedReferences
 import cv2
+import pyautogui
 
 import Trax
 import Automation
