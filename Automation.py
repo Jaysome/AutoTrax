@@ -51,6 +51,20 @@ def lookfortaskcard(isfullauto):
     return status_loc
 
 
+def login():
+    global demon_running
+    while demon_running:
+        user_loc = pyautogui.locateCenterOnScreen(resource_path('img\\login.png'), grayscale=True)
+        if user_loc is not None:
+            pswd_loc = (user_loc[0], user_loc[1] + 50)
+            pyautogui.click(user_loc)
+            justtype('MXTECH')
+            pyautogui.click(pswd_loc)
+            justtype('TRAXMECH')
+            kb.send_keys('{ENTER}')
+            demon_running = False
+
+
 def filltaskcard(x, y):
     status_loc = (x, y)
     save_loc = (x - 141, y - 82)

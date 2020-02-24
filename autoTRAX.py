@@ -1,12 +1,12 @@
 #!usr/bin/python3.7.4
 
-# Copyright 2019, Jérémi Morin, All rights reserved.
-__version__ = "1.7 Test 5"
+__version__ = "1.7 Test 6"
 
 import time
 import sys
 import ctypes
 import os
+import threading
 # statement used for greenthumb confidence
 # noinspection PyUnresolvedReferences
 import cv2
@@ -22,6 +22,9 @@ pyautogui.PAUSE = 0.2
 
 def main():
     fullauto = False
+    Automation.demon_running = True
+    demon = threading.Thread(target=Automation.login(), daemon=True)
+    demon.start()
     while True:
         try:
             Trax.askforinputs()
@@ -48,7 +51,8 @@ def main():
     while True:
         try:
             coords = Automation.lookfortaskcard(fullauto)
-
+            Automation.demon_running = False
+            demon.join()
             Automation.filltaskcard(coords[0], coords[1])
 
         except pyautogui.FailSafeException:
